@@ -1,6 +1,6 @@
 ﻿using WebStoreCoreApplication.Domain.Entities.Base.Interfaces;
 
-namespace WebStoreCoreApplication.ViewModels
+namespace WebStoreCoreApplication.Domain.ViewModels
 {
     public class ProductViewModel : INamedEntity, IOrderEntity
     {

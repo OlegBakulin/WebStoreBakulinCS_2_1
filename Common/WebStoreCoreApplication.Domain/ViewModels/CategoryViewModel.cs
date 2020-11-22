@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStoreCoreApplication.Domain.Entities.Base.Interfaces;
 
-namespace WebStoreCoreApplication.ViewModels
+namespace WebStoreCoreApplication.Domain.ViewModels
 {
     public class CategoryViewModel : INamedEntity, IOrderEntity
     {

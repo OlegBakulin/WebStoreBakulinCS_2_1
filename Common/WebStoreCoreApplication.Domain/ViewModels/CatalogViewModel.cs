@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebStoreCoreApplication.ViewModels
+namespace WebStoreCoreApplication.Domain.ViewModels
 {
     public class CatalogViewModel
     {
