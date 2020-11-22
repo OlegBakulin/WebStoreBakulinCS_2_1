@@ -71,8 +71,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebStoreCoreApplicatioc.DAL\WebStoreCoreApplicatioc.DAL.csproj" />
-    <ProjectReference Include="..\WebStoreCoreApplication.Domain\WebStoreCoreApplication.Domain.csproj" />
+    <ProjectReference Include="..\..\Common\WebStoreCoreApplication.Domain\WebStoreCoreApplication.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\WebStoreCoreApplicatioc.DAL\WebStoreCoreApplicatioc.DAL.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
