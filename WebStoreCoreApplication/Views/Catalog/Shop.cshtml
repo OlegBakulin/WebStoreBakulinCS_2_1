@@ -1,0 +1,29 @@
+﻿@model WebStoreCoreApplication.ViewModels.CatalogViewModel
+
+@await Html.PartialAsync("Partial/Advertisement")
+
+<head>
+    <title>Shop | E-Shopper</title>
+</head>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                @await Html.PartialAsync("Partial/LeftBar")<!--Leftbar-->
+            </div>
+                <div class="col-sm-9 padding-right">
+                    <div class="features_items">
+                        @await Html.PartialAsync("Partial/_ProductItems", Model.Products)
+                        <ul class="pagination">
+                            <li class="active"><a href="">1</a></li>
+                            <li><a href="">2</a></li>
+                            <li><a href="">3</a></li>
+                            <li><a href="">&raquo;</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
