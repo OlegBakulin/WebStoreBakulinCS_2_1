@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebStoreBakulin.ServiceHosting.Controllers
 {
-    [Route("api/[controller]")] //http://localhost:5000/api/values
+    [Route("api/[controller]")] //http://localhost:5001/api/values
     [ApiController]
     public class ValuesController : ControllerBase
     {
@@ -16,10 +16,7 @@ namespace WebStoreBakulin.ServiceHosting.Controllers
             .Select(i => $"Value {i}").ToList();
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        public IEnumerable<string> Get() => _value;
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
