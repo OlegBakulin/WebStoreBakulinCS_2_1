@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WebStoreCoreApplication.Domain.ViewModels.EmployeeViewModel>
+@{ 
+    var isAdmin = User.IsInRole("Admin");
+    var isBoss = User.IsInRole("Boss");
+    var isManager = User.IsInRole("Manager");
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Employees</title>
+</head>
+<body>
+    <td>
+        @if (isAdmin || isBoss)
+         {
+        <a asp-action="NewUser" class="btn btn-success">Новенький</a>
+         }
+    </td>
+    <table class="table">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.IName</td>
+            <td>@item.FName</td>
+            <td>@item.Position</td>
+            @if (isAdmin || isBoss || isManager)
+            {
+                <td>
+                    @Html.ActionLink("Детали", "EmployeeDetails", new { id = item.Id })
+                </td>
+               @if (isAdmin || isBoss)
+               {
+                    <td>
+                        @Html.ActionLink("Редактировать", "Edit", new { id = item.Id })
+                    </td>
+                 <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-cut"> Увольнение</i> </a>
+                </td>
+               }
+            }
+            </tr>
+         }
+    </table>
+</body>
+</html>

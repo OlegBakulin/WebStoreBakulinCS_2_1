@@ -1,0 +1,12 @@
+﻿<div class="col-sm-3">
+    <div class="left-sidebar">
+        @await Html.PartialAsync("Partial/LeftBarSlice/Category")<!--/category-products-->
+
+        @await Component.InvokeAsync("Brand")<!--/brands_products-->
+
+        @await Html.PartialAsync("Partial/LeftBarSlice/Price")<!--/price-range-->
+
+        @await Html.PartialAsync("Partial/LeftBarSlice/Shipping")<!--/shipping-->
+
+    </div>
+</div>

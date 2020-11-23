@@ -1,0 +1,43 @@
+﻿@model WebStoreCoreApplication.Domain.ViewModels.EmployeeViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EmployeeDetails</title>
+</head>
+<body>
+    <table class="table table-bordered">
+        <tr>
+            <td>ID</td>
+            <td>@Model.Id</td>
+        </tr>
+        <tr>
+            <td>Имя</td>
+            <td>@Model.IName</td>
+        </tr>
+        <tr>
+            <td>Фамилия</td>
+            <td>@Model.FName</td>
+        </tr>
+        <tr>
+            <td>Отчество</td>
+            <td>@Model.OName</td>
+        </tr>
+        <tr>
+            <td>Возраст</td>
+            <td>@Model.Age</td>
+        </tr>
+        <tr>
+            <td>Должность</td>
+            <td>@Model.Position</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.ActionLink("К списку", "Employees", new {})
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
