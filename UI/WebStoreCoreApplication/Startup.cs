@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Controllers.Infrastructure;
-using WebStoreCoreApplication.Controllers.Infrastructure.Interfaces;
+using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Controllers.Infrastructure.Services;
 using WebStoreCoreApplication.Domain.Entities;
 

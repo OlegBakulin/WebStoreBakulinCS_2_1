@@ -12,8 +12,9 @@ using System.Threading;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Data.Sql;
 using System.Data.Entity;
+using WebStoreCoreApplicatioc.DAL;
 
-namespace WebStoreCoreApplicatioc.DAL
+namespace WebStoreBakulin.Services.Data
 {
     public static class DbInitializer
     {

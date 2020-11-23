@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebStoreCoreApplication.Controllers.Infrastructure.Interfaces;
+using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Controllers.Infrastructure.Services;
-using WebStoreCoreApplication.ViewModels;
+using WebStoreCoreApplication.Domain.ViewModels;
+using WebStoreCoreApplication.Domain.ViewModels;
+
 namespace WebStoreCoreApplication.ViewComponents
 {
     public class BrandViewComponent : ViewComponent

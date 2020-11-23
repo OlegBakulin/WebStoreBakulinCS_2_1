@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebStoreCoreApplicatioc.DAL;
+using WebStoreBakulin.Services.Data;
 
 namespace WebStoreCoreApplication
 {

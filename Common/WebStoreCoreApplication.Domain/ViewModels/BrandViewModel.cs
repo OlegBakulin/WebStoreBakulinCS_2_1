@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStoreCoreApplication.Domain.Entities.Base.Interfaces;
-namespace WebStoreCoreApplication.Domain.Domain.ViewModels
+namespace WebStoreCoreApplication.Domain.ViewModels
 {
     public class BrandViewModel : INamedEntity, IOrderEntity
     {

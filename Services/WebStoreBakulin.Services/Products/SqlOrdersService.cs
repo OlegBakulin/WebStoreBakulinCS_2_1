@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Domain.Entities;
-using WebStoreCoreApplication.Controllers.Infrastructure.Interfaces;
-using WebStoreCoreApplication.ViewModels;
+using WebStoreBakulin.Interfaces.Services;
+using WebStoreCoreApplication.Domain.ViewModels;
 
 namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {

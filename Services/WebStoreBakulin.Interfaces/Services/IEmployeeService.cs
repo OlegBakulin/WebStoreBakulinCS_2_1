@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebStoreCoreApplication.ViewModels;
+using WebStoreCoreApplication.Domain.ViewModels;
 
-namespace WebStoreCoreApplication.Controllers.Infrastructure.Interfaces
+namespace WebStoreBakulin.Interfaces.Services
 {
     public interface IEmployeeService
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Domain.Entities;
-using WebStoreCoreApplication.Controllers.Infrastructure.Interfaces;
+using WebStoreBakulin.Interfaces.Services;
 
 namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {

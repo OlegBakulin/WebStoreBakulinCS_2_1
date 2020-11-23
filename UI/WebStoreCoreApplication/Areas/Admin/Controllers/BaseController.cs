@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreCoreApplication.Domain.Entities;
-using WebStoreCoreApplication.Controllers.Infrastructure.Interfaces;
+using WebStoreBakulin.Interfaces.Services;
 
 namespace WebStore.Areas.Admin.Controllers
 {
