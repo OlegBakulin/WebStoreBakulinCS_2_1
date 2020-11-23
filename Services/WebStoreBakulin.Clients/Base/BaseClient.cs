@@ -7,17 +7,17 @@ using System.Text;
 
 namespace WebStoreBakulin.Clients.Base
 {
-    class BaseClient
+    public class BaseClient
     {
         protected readonly string _ServiceAddress;
         protected readonly HttpClient _Client;
 
-        public BaseClient(IConfiguration configuration, string ServiceAddress)
+        public BaseClient(IConfiguration Configuration, string ServiceAddress)
         {
             _ServiceAddress = ServiceAddress;
             _Client = new HttpClient
             {
-                BaseAddress = new Uri(configuration["WebApiURL"]),
+                BaseAddress = new Uri(Configuration["WebApiURL"]),
                 DefaultRequestHeaders =
                 {
                     Accept = { new MediaTypeWithQualityHeaderValue("application/json")}
