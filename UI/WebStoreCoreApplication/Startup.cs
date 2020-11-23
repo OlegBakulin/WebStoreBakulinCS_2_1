@@ -12,6 +12,8 @@ using WebStoreCoreApplication.Controllers.Infrastructure;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Controllers.Infrastructure.Services;
 using WebStoreCoreApplication.Domain.Entities;
+using WebStoreBakulin.Interfaces.TestApi;
+using WebStoreBakulin.Clients.Value;
 
 //using WebStoreCoreApplication.Infrastructure.Services;
 
@@ -36,6 +38,8 @@ namespace WebStoreCoreApplication
             services.AddSingleton<IEmployeeService, InMemoryEmployeeServices>();
             services.AddScoped<IProductServices, SqlProductService>();
             services.AddScoped<IOrdersService, SqlOrdersService>();
+
+            services.AddTransient<IValueService, ValueClient>();
 
             services.AddDbContext<WebStoreContext>(options => options
                 .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
