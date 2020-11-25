@@ -12,16 +12,20 @@
             <tr>
                 <th>#</th>
                 <th>Value</th>
+                <th>Детльно</th>
             </tr>
         </thead>
         <tbody>
             @{ var i = 1; }
             @foreach (var value in Model)
             {
-                <tr>
-                    <td>@(i++)</td>
-                    <td>@value</td>
-                </tr>
+            <tr>
+                <td>@(i++)</td>
+                <td>@value</td>
+                <td>
+                    @Html.ActionLink("Детали", "ValueByID", new { id = i-1 })
+                </td>
+            </tr>
             }
         </tbody>
     </table>

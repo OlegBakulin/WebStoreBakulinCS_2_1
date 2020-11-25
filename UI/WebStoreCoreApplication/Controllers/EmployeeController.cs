@@ -20,12 +20,17 @@ namespace WebStoreCoreApplication.Controllers
         {
             employeeService = employeeSSService;
         }
+
+
         [AllowAnonymous]
         [Route("idx")]
         public IActionResult Index()
         {
             return View();
         }
+        
+        
+        
         [AllowAnonymous]
         [Route("all")]
         public IActionResult Employees()
@@ -41,6 +46,7 @@ namespace WebStoreCoreApplication.Controllers
             if (employeeviewmodel == null) return NotFound();
             return View(employeeviewmodel);
         }
+
 
         [HttpGet]
         [Authorize(Roles = "Boss, Admin")]

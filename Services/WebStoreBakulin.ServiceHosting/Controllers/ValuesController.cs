@@ -15,13 +15,18 @@ namespace WebStoreBakulin.ServiceHosting.Controllers
         private static readonly List<string> _value = Enumerable.Range(1, 10)
             .Select(i => $"Value {i}").ToList();
         // GET: api/<ValuesController>
+       
+        
         [HttpGet]
         public IEnumerable<string> Get() => _value;
+
+
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
+            id--;
             if (id < 0) 
                 return BadRequest(); //400
             if (id >= _value.Count)
@@ -47,6 +52,7 @@ namespace WebStoreBakulin.ServiceHosting.Controllers
             _value[id] = value;
             return Ok();
         }
+
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]

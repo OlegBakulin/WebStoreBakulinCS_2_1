@@ -39,7 +39,7 @@ namespace WebStoreCoreApplication
             services.AddScoped<IProductServices, SqlProductService>();
             services.AddScoped<IOrdersService, SqlOrdersService>();
 
-            services.AddTransient<IValueService, ValueClient>();
+            services.AddSingleton<IValueService, ValueClient>();
 
             services.AddDbContext<WebStoreContext>(options => options
                 .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
