@@ -23,7 +23,8 @@
                 <td>@(i++)</td>
                 <td>@value</td>
                 <td>
-                    @Html.ActionLink("Детали", "ValueByID", new { id = i-1 })
+                    @Html.ActionLink("Детали", "ValueByID", new { id = i - 1 }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = i - 1})
                 </td>
             </tr>
             }
