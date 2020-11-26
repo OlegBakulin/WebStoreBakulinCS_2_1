@@ -16,7 +16,7 @@ using WebStoreCoreApplicatioc.DAL;
 
 namespace WebStoreBakulin.Services.Data
 {
-    public static class DbInitializer
+    public class DbInitializer
     {
         public static void Initialize(WebStoreContext context)
         {

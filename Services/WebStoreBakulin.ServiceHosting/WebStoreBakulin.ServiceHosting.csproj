@@ -10,4 +10,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\WebStoreCoreApplication.Domain\WebStoreCoreApplication.Domain.csproj" />
+    <ProjectReference Include="..\WebStoreBakulin.Interfaces\WebStoreBakulin.Interfaces.csproj" />
+    <ProjectReference Include="..\WebStoreBakulin.Services\WebStoreBakulin.Services.csproj" />
+    <ProjectReference Include="..\WebStoreCoreApplicatioc.DAL\WebStoreCoreApplicatioc.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
