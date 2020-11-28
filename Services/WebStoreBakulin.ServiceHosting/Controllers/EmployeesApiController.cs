@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
@@ -30,19 +31,21 @@ namespace WebStoreCoreApplication.Controllers
         }
 
         ////
-        public void AddNew(EmployeeViewModel newmodel)
+        public int AddNew(EmployeeViewModel newmodel)
         {
+            HttpResponseMessage message = new HttpResponseMessage();
             _EmployeesData.AddNew(newmodel);
-        }
-
-        public void Delete(int id)
-        {
-            _EmployeesData.Delete(id);
+            return (int)message.StatusCode;
         }
 
         public void Commit()
         {
             _EmployeesData.Commit();
+        }
+
+        bool IEmployeeService.Delete(int id)
+        {
+            return _EmployeesData.Delete(id);
         }
     }
 }

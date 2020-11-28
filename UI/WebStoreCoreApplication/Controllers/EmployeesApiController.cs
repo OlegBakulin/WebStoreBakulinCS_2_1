@@ -6,10 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
+using WebStoreBakulin.Clients;
+using System.Net.Http;
 
 namespace WebStoreCoreApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(WebApiAdress.EmployeesAdress)]
     [ApiController]
     public class EmployeesApiController : ControllerBase, IEmployeeService
     {
@@ -25,21 +27,27 @@ namespace WebStoreCoreApplication.Controllers
             return employeeService.GetByID(id);
         }
         [HttpPost("{id?}")]
-        void IEmployeeService.AddNew(EmployeeViewModel newmodel)
+        int IEmployeeService.AddNew(EmployeeViewModel newmodel)
         {
+            HttpResponseMessage message = new HttpResponseMessage();
             employeeService.AddNew(newmodel);
             RedirectToAction(nameof(Index));
+            return (int)message.StatusCode;
         }
         [HttpDelete("{id}")]
-        void IEmployeeService.Delete(int id)
+        bool IEmployeeService.Delete(int id)
         {
             employeeService.Delete(id);
             RedirectToAction(nameof(Index));
+            return true;
         }
+
         [NonAction]
         void IEmployeeService.Commit()
         {
             employeeService.Commit();
         }
+
+        
     }
 }
