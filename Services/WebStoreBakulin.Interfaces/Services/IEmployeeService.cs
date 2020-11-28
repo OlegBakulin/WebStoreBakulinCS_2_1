@@ -12,10 +12,10 @@ namespace WebStoreBakulin.Interfaces.Services
 
         EmployeeViewModel GetByID(int id);
 
-        void Commit();
-
         void AddNew(EmployeeViewModel newmodel);
 
         void Delete(int id);
+     
+        void Commit();
     }
 }
