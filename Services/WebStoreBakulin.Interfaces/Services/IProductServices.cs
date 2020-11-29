@@ -8,7 +8,7 @@ namespace WebStoreBakulin.Interfaces.Services
     {
         IEnumerable<CategoryDTO> GetCategories();
         IEnumerable<BrandDTO> GetBrands();
-        IEnumerable<ProductDTO> GetProducts(ProductFilter filter);
+        IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null);
         ProductDTO GetProductById(int id);
     }
 }

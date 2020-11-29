@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Controllers.Infrastructure.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
-using WebStoreCoreApplication.Domain.ViewModels;
 
 namespace WebStoreCoreApplication.ViewComponents
 {

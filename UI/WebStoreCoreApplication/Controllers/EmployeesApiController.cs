@@ -8,6 +8,8 @@ using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
 using WebStoreBakulin.Clients;
 using System.Net.Http;
+using WebStoreCoreApplication.Domain;
+using WebStoreCoreApplication.Domain.Entities;
 
 namespace WebStoreCoreApplication.Controllers
 {
@@ -17,17 +19,17 @@ namespace WebStoreCoreApplication.Controllers
     {
         private readonly IEmployeeService employeeService;
         [HttpGet]
-        IEnumerable<EmployeeViewModel> IEmployeeService.GetAll()
+        public IEnumerable<Employee> GetAll()
         {
            return employeeService.GetAll();
         }
         [HttpGet("{id}")]
-        EmployeeViewModel IEmployeeService.GetByID(int id)
+        public Employee GetByID(int id)
         {
             return employeeService.GetByID(id);
         }
         [HttpPost("{id?}")]
-        int IEmployeeService.AddNew(EmployeeViewModel newmodel)
+        public int AddNew(Employee newmodel)
         {
             HttpResponseMessage message = new HttpResponseMessage();
             employeeService.AddNew(newmodel);
@@ -35,7 +37,7 @@ namespace WebStoreCoreApplication.Controllers
             return (int)message.StatusCode;
         }
         [HttpDelete("{id}")]
-        bool IEmployeeService.Delete(int id)
+        public bool Delete(int id)
         {
             employeeService.Delete(id);
             RedirectToAction(nameof(Index));
@@ -43,7 +45,7 @@ namespace WebStoreCoreApplication.Controllers
         }
 
         [NonAction]
-        void IEmployeeService.Commit()
+        public void Commit()
         {
             employeeService.Commit();
         }

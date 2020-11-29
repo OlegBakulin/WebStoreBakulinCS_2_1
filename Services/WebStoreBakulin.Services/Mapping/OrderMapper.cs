@@ -9,10 +9,11 @@ namespace WebStoreBakulin.Services.Mapping
         public static OrderDTO ToDTO(this Order order) => order is null ? null : new OrderDTO
         {
             Id = order.Id,
+            Name = order.Name,
             Phone = order.Phone,
             Address = order.Address,
             Date = order.Date,
-            Items = order.OrderItems.Select(ToDTO)
+            Items =order.OrderItems.Select(ToDTO)
         };
 
         public static OrderItemDTO ToDTO(this OrderItem item) => item is null ? null : new OrderItemDTO
@@ -25,6 +26,7 @@ namespace WebStoreBakulin.Services.Mapping
         public static Order FromDTO(this OrderDTO order) => order is null ? null : new Order
         {
             Id = order.Id,
+            Name = order.Name,
             Phone = order.Phone,
             Address = order.Address,
             Date = order.Date,

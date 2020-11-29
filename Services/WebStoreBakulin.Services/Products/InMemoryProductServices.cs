@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStoreBakulin.Interfaces.Services;
+using WebStoreCoreApplication.Domain.DTO.Order;
+using WebStoreCoreApplication.Domain.DTO.Products;
 using WebStoreCoreApplication.Domain.Entities;
+using WebStoreBakulin.Services.Mapping;
 
 namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {
@@ -13,9 +16,9 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
         private readonly List<Category> _categories;
         private readonly List<Product> _products;
 
-        
 
-    public InMemoryProductServices()
+
+        public InMemoryProductServices()
         {
             _categories = new List<Category>()
             {
@@ -400,42 +403,62 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
             };
         }
 
-        public IEnumerable<Brand> GetBrands()
+        public IEnumerable<BrandDTO> GetBrands()
         {
-            return _brands;
+            return (IEnumerable<BrandDTO>)_brands;
         }
 
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<CategoryDTO> GetCategories()
         {
-            return _categories;
+            return (IEnumerable<CategoryDTO>)_categories;
         }
-               
 
-        public IEnumerable<Product> GetProducts(ProductFilter filter)
+
+        public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
         {
-        var products = _products;
+            var products = _products;
 
-        if (filter.CategoryId.HasValue)
-            products = products
-                .Where(p => p.CategoryId.Equals(filter.CategoryId))
-                .ToList();
-        if (filter.BrandId.HasValue)
-            products = products
-                .Where(p => p.BrandId.HasValue && p.BrandId.Value == filter.BrandId.Value)
-                .ToList();
+            if (filter?.CategoryId != null)
+                products = products
+                    .Where(p => p.CategoryId.Equals(filter.CategoryId))
+                    .ToList();
+            if (filter.BrandId.HasValue)
+                products = products
+                    .Where(p => p.BrandId == filter.BrandId)
+                    .ToList();
 
-        return products;
+            return products.ToDTO();
         }
-        
-        public Product GetProductById(int id)
+
+        public ProductDTO GetProductById(int id)
         {
 
             /*Часть ДЗ 7, которое то же не 
             var products = _products;
             return products.ElementAt(id);
             */
-            return _products.FirstOrDefault(x => x.Id == id);
-        }
+            return _products.FirstOrDefault(x => x.Id == id).ToDTO();
 
+            /*
+            var productdto = new ProductDTO
+                {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                ImageUrl = product.ImageUrl,
+                Order = product.Order, 
+                Brand = {
+                    Id = product.Brand.Id,
+                    Name = product.Brand.Name, 
+                    Order = product.Brand.Order},
+                Category = {Id = product.Category.Id,
+                    Name = product.Category.Name,
+                    ParentId = product.Category.ParentId,
+                    Order = product.Category.Order}
+                };
+            return productdto;
+            */
+    }    
 }
 }
+

@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStoreCoreApplication.Domain.Entities;
 using WebStoreCoreApplication.Domain.ViewModels;
 
 namespace WebStoreBakulin.Interfaces.Services
 {
     public interface IEmployeeService
     {
-        IEnumerable<EmployeeViewModel> GetAll();
+        IEnumerable<Employee> GetAll();
 
-        EmployeeViewModel GetByID(int id);
+        Employee GetByID(int id);
 
-        int AddNew(EmployeeViewModel newmodel);
+        int AddNew(Employee newmodel);
 
         bool Delete(int id);
      

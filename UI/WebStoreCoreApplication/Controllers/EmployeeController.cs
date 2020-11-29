@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreBakulin.Interfaces.Services;
+using WebStoreCoreApplication.Domain.Entities;
 using WebStoreCoreApplication.Domain.ViewModels;
 
 namespace WebStoreCoreApplication.Controllers
@@ -58,13 +59,13 @@ namespace WebStoreCoreApplication.Controllers
             {
                 maxid = idempl.Id;
             }
-            return View(new EmployeeViewModel {
+            return View(new Employee {
                 Id = maxid + 1,
-                IName = "Имя",
-                FName = "Фамилия",
+                Name = "Имя",
+                Surname = "Фамилия",
                 Age = 18,
-                OName = null,
-                Position = "Должность"
+                Patronymic = null,
+                EmployementDate = DateTime.Now.Subtract(TimeSpan.FromDays(300 * 7))
             });
 
         }
@@ -72,15 +73,15 @@ namespace WebStoreCoreApplication.Controllers
         [HttpPost]
         [Authorize(Roles = "Boss, Admin")]
         [Route("NewPeople")]
-        public IActionResult NewUser(EmployeeViewModel model)
+        public IActionResult NewUser(Employee model)
         {
-            var dbItem = new EmployeeViewModel();// employeeService.GetByID(model.Id);
+            var dbItem = new Employee();// employeeService.GetByID(model.Id);
             dbItem.Id = model.Id;
-            dbItem.IName = model.IName;
-            dbItem.FName = model.FName;
+            dbItem.Name = model.Name;
+            dbItem.Surname = model.Surname;
             dbItem.Age = model.Age;
-            dbItem.OName = model.OName;
-            dbItem.Position = model.Position;
+            dbItem.Patronymic = model.Patronymic;
+            dbItem.EmployementDate = model.EmployementDate;
             employeeService.AddNew(dbItem);
             employeeService.Commit();
             return RedirectToAction(nameof(Employees));
@@ -93,7 +94,7 @@ namespace WebStoreCoreApplication.Controllers
         public IActionResult Edit (int? id)
         {
             if (!id.HasValue)
-                return View(new EmployeeViewModel());
+                return View(new Employee());
 
             var model = employeeService.GetByID(id.Value);
             if (model == null)
@@ -119,7 +120,7 @@ namespace WebStoreCoreApplication.Controllers
         [HttpPost]
         [Authorize(Roles = "Boss, Admin")]
         [Route("edit/{id?}")]
-        public IActionResult Edit(EmployeeViewModel model)
+        public IActionResult Edit(Employee model)
         {
             if (model.Age < 18 || model.Age > 100)
             {
@@ -137,11 +138,12 @@ namespace WebStoreCoreApplication.Controllers
 
                 //if (ReferenceEquals(dbItem, null)) return NotFound();// 404
 
-                dbItem.IName = model.IName;
-                dbItem.FName = model.FName;
+                dbItem.Id = model.Id;
+                dbItem.Name = model.Name;
+                dbItem.Surname = model.Surname;
                 dbItem.Age = model.Age;
-                dbItem.OName = model.OName;
-                dbItem.Position = model.Position;
+                dbItem.Patronymic = model.Patronymic;
+                dbItem.EmployementDate = model.EmployementDate;
             }
             else 
             {

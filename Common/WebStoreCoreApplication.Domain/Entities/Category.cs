@@ -15,6 +15,6 @@ namespace WebStoreCoreApplication.Domain.Entities
         [ForeignKey("ParentId")]
         public virtual Category ParentCategory { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

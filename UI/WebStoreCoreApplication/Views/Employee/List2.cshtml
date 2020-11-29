@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebStoreCoreApplication.Domain.ViewModels.EmployeeViewModel>
+﻿@model IEnumerable<WebStoreCoreApplication.Domain.Entities.Employee>
 
 @{
     ViewData["Title"] = "List2";
@@ -17,19 +17,19 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IName)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FName)
+                @Html.DisplayNameFor(model => model.Surname)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OName)
+                @Html.DisplayNameFor(model => model.Patronymic)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Age)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Position)
+                @Html.DisplayNameFor(model => model.EmployementDate)
             </th>
             <th></th>
         </tr>
@@ -41,19 +41,19 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IName)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FName)
+                @Html.DisplayFor(modelItem => item.Surname)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OName)
+                @Html.DisplayFor(modelItem => item.Patronymic)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Age)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Position)
+                @Html.DisplayFor(modelItem => item.EmployementDate)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

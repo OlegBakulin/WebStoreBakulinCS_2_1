@@ -25,8 +25,10 @@ namespace WebStoreCoreApplication.Domain.ViewModels
 
         public int Age { get; set;}
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Должность является обязательной")]
-        [Display(Name = "Должность")]
-        public string Position { get; set;}
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Дата начала трудового договора")]
+        [DataType(DataType.DateTime)]
+        public DateTime EmployementDate { get; set; }
+
     }
 }

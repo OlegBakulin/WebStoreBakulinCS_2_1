@@ -8,6 +8,7 @@ using WebStoreBakulin.Clients.Base;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
 using WebStoreCoreApplication.Domain;
+using WebStoreCoreApplication.Domain.Entities;
 
 namespace WebStoreBakulin.Clients.Employees
 {
@@ -25,11 +26,11 @@ namespace WebStoreBakulin.Clients.Employees
 
 
 
-        public IEnumerable<EmployeeViewModel> GetAll() => Get<IEnumerable<EmployeeViewModel>>(ServiceAddress);
+        public IEnumerable<Employee> GetAll() => Get<IEnumerable<Employee>>(ServiceAddress);
 
-        public EmployeeViewModel GetByID(int id) => Get<EmployeeViewModel>($"{ServiceAddress}/{id}");
+        public Employee GetByID(int id) => Get<Employee>($"{ServiceAddress}/{id}");
 
-        public int AddNew(EmployeeViewModel employee)
+        public int AddNew(Employee employee)
         {
             return Post(ServiceAddress, employee).Content.ReadAsAsync<int>().Result;   
         }
@@ -42,10 +43,7 @@ namespace WebStoreBakulin.Clients.Employees
         }
 
         //public void Edit(int id, Employee employee) => Put($"{_ServiceAddress}/{id}", employee);
-        bool IEmployeeService.Delete(int id)
-        {
-            return Delete($"{_ServiceAddress}/{id}").IsSuccessStatusCode;
-        }
+        public bool Delete(int id) => Delete($"{_ServiceAddress}/{id}").IsSuccessStatusCode;
 
         public void Commit()
         {

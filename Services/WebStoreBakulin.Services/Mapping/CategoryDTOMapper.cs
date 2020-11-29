@@ -3,7 +3,7 @@ using WebStoreCoreApplication.Domain.Entities;
 
 namespace WebStoreBakulin.Services.Mapping
 {
-    public static class SectionDTOMapper
+    public static class CategoryDTOMapper
     {
         public static CategoryDTO ToDTO(this Category Section) => Section is null ? null : new CategoryDTO
         {

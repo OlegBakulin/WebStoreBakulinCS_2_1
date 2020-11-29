@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace WebStoreCoreApplication.Domain.ViewModels
 {
-    public class Cart
+    public class CartOrderViewModel
     {
-        public List<CartItem> Items { get; set; }
-        public int ItemsCount => Items?.Sum(x => x.Quantity) ?? 0;
+        public CartViewModel Carting { get; set; }
+
+        public OrderViewModel Order { get; set; } = new OrderViewModel();
     }
 }
