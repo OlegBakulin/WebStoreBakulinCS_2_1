@@ -17,7 +17,7 @@ namespace WebStoreCoreApplication.Domain.ViewModels
         public string Name { get; set; }
         public int Order { get; set; }
 
-        public List<CategoryViewModel> ChildCategories { get; set; }
+        public List<CategoryViewModel> ChildCategories { get; set; } = new List<CategoryViewModel>();
         public CategoryViewModel ParentCategory { get; set; }
     }
 }

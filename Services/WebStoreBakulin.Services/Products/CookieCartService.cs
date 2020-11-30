@@ -8,80 +8,37 @@ using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreCoreApplication.Domain.ViewModels;
 
-namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
+namespace WebStoreBakulin.Services.Products
 {
     public class CookieCartService : ICartService
     {
         private readonly IProductServices _productService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string _cartName;
+        private void ReplaceCookies(IResponseCookies cookies, string cookie)
+        {
+            cookies.Delete(_cartName);
+            cookies.Append(_cartName, cookie);
+        }
 
         private Cart Cart
         {
             get
             {
-                var cookie = _httpContextAccessor
-                    .HttpContext
-                    .Request
-                    .Cookies[_cartName];
-                string json = string.Empty;
-                Cart cart = null;
-
-                if (cookie == null)
+                var context = _httpContextAccessor.HttpContext;
+                var cookies = context.Response.Cookies;
+                var cart_cookies = context.Request.Cookies[_cartName];
+                if (cart_cookies is null)
                 {
-                    cart = new Cart { Items = new List<CartItem>() };
-                    json = JsonConvert.SerializeObject(cart);
-
-                    _httpContextAccessor
-                        .HttpContext
-                        .Response
-                        .Cookies
-                        .Append(
-                            _cartName,
-                            json,
-                            new CookieOptions
-                            {
-                                Expires = DateTime.Now.AddDays(1)
-                            });
+                    var cart = new Cart();
+                    cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
                     return cart;
                 }
 
-                json = cookie;
-                cart = JsonConvert.DeserializeObject<Cart>(json);
-
-                _httpContextAccessor.HttpContext.Response.Cookies.Delete(_cartName);
-
-                _httpContextAccessor.HttpContext.Response.Cookies.Append(
-                        _cartName,
-                        json,
-                        new CookieOptions()
-                        {
-                            Expires = DateTime.Now.AddDays(1)
-                        });
-
-                return cart;
+                ReplaceCookies(cookies, cart_cookies);
+                return JsonConvert.DeserializeObject<Cart>(cart_cookies);
             }
-            set
-            {
-                var json = JsonConvert.SerializeObject(value);
-
-                _httpContextAccessor
-                    .HttpContext
-                    .Response
-                    .Cookies
-                    .Delete(_cartName);
-                _httpContextAccessor
-                    .HttpContext
-                    .Response
-                    .Cookies
-                    .Append(
-                        _cartName,
-                        json,
-                        new CookieOptions()
-                        {
-                            Expires = DateTime.Now.AddDays(1)
-                        });
-            }
+            set => ReplaceCookies(_httpContextAccessor.HttpContext.Response.Cookies, JsonConvert.SerializeObject(value));
         }
 
         public CookieCartService(IProductServices productService, IHttpContextAccessor httpContextAccessor)
@@ -149,7 +106,7 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
         {
             var products = _productService.GetProducts(new ProductFilter
             {
-                Ids = Cart.Items.Select(i => i.ProductId).ToList()
+                Ids = Cart.Items.Select(i => i.ProductId).ToArray()
             }).Select(p => new ProductViewModel()
             {
                 Id = p.Id,
@@ -162,9 +119,9 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 
             var r = new CartViewModel
             {
-                Items = Cart.Items.ToDictionary(
-                    x => products.First(y => y.Id == x.ProductId),
-                    x => x.Quantity)
+                Items = Cart.Items.Select(
+                    x => (products[x.ProductId],
+                    x.Quantity))
             };
 
             return r;

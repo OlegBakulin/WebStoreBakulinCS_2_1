@@ -14,22 +14,22 @@ using WebStoreCoreApplication.Controllers.Infrastructure.Services;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreBakulin.Interfaces.TestApi;
 using WebStoreBakulin.Clients.Value;
+using WebStoreBakulin.Services.Data;
+using WebStoreBakulin.Services.Products;
 
 //using WebStoreCoreApplication.Infrastructure.Services;
 
 namespace WebStoreCoreApplication
 {
-    public class Startup
+    public sealed record Startup (IConfiguration _configuration)
     {
-        private readonly IConfiguration _configuration;
-        public Startup(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDbContext<WebStoreContext>(options => options
+                .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+            
+            services.AddTransient<DbInitializer>();
             services.AddMvc(option =>
             {
                 option.Filters.Add(typeof(SimpleActionFilter));
@@ -41,8 +41,7 @@ namespace WebStoreCoreApplication
 
             services.AddSingleton<IValueService, ValueClient>();
 
-            services.AddDbContext<WebStoreContext>(options => options
-                .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+            
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<WebStoreContext>()

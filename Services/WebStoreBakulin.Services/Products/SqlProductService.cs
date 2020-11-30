@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreBakulin.Interfaces.Services;
+using WebStoreBakulin.Services.Mapping;
+using WebStoreCoreApplication.Domain.DTO.Products;
 
 namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {
@@ -19,33 +21,41 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
             _context = context;
         }
 
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<CategoryDTO> GetCategories()
         {
-            return _context.Categorys.ToList();
+            return _context.Categorys.AsEnumerable().Select(c => c.ToDTO());
         }
 
-        public IEnumerable<Brand> GetBrands()
+        public IEnumerable<BrandDTO> GetBrands()
         {
-            return _context.Brands.ToList();
+            return _context.Brands.AsEnumerable().Select(b => b.ToDTO());
         }
 
-        public IEnumerable<Product> GetProducts(ProductFilter filter)
+        public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
         {
-            var contextProducts = _context.Products.Include(p => p.Category).Include(p => p.Brand).AsQueryable();
-            if (filter.BrandId.HasValue)
-                contextProducts.Where(c => c.BrandId.HasValue && c.BrandId.Value.Equals(filter.BrandId.Value));
-            if (filter.CategoryId.HasValue)
-                contextProducts = contextProducts.Where(c => c.CategoryId.Equals(filter.CategoryId.Value));
+            IQueryable<Product> query = _context.Products
+               .Include(product => product.Brand)
+               .Include(product => product.Category);
+            {
+                if (filter?.Ids?.Length > 0)
+                    query = query.Where(product => filter.Ids.Contains(product.Id));
+                else
+                {
+                    if (filter?.BrandId != null)
+                        query = query.Where(product => product.BrandId == filter.BrandId);
 
-            return contextProducts.ToList();
+                    if (filter?.CategoryId != null)
+                        query = query.Where(product => product.CategoryId == filter.CategoryId);
+                }
+                return query.AsEnumerable().ToDTO();
+            }
         }
 
-        public Product GetProductById(int id)
+            ProductDTO IProductServices.GetProductById(int id)
         {
-            //Мой Вариант ДЗ 7
-            //var product = _context.Products.Include("Category").Include("Brand");
-            //return product;
-            return _context.Products.Include(p => p.Category).Include(p => p.Brand).FirstOrDefault(x => x.Id == id);
+            return _context.Products.Include(p => p.Category).Include(p => p.Brand).FirstOrDefault(x => x.Id == id).ToDTO();
         }
+
+        
     }
 }

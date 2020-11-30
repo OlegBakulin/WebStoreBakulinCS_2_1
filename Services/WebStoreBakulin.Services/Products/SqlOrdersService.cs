@@ -8,6 +8,8 @@ using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
+using WebStoreCoreApplication.Domain.DTO.Order;
+using WebStoreBakulin.Services.Mapping;
 
 namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {
@@ -22,66 +24,85 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
             _userManager = userManager;
         }
 
-        public IEnumerable<Order> GetUserOrders(string userName)
-        {
-            return _context
+
+        public async Task<IEnumerable<OrderDTO>> GetUserOrders(string userName)
+    {
+            return await _context
                 .Orders
-                .Include(x => x.OrderItems)
                 .Include(x => x.User)
-                .Where(x => x.User.UserName == userName);
+                .Include(x => x.OrderItems)
+                .Where(x => x.User.UserName == userName)
+                .Select(x => x.ToDTO())
+                .ToArrayAsync();
         }
 
-        public Order GetOrderById(int id)
+        public async Task<OrderDTO> GetOrderById(int id) => (await _context.Orders
+               .Include(order => order.User)
+               .Include(order => order.OrderItems)
+               .FirstOrDefaultAsync(order => order.Id == id))
+           .ToDTO();
+        /*Task<OrderDTO> IOrdersService.GetOrderById(int id)
         {
-            return _context
-                .Orders
-                .Include("OrderItems")
-                .Include("User")
-                .FirstOrDefault(x => x.Id == id);
-        }
-
-        public Order CreateOrder(OrderViewModel orderModel, CartViewModel transformCart, string userName)
-        {
-            var user = _userManager.FindByNameAsync(userName).Result;
-
-            using (var transaction = _context.Database.BeginTransaction())
+            var ord = _context
+.Orders
+.Include(order => order.User)
+           .Include(order => order.OrderItems)
+           .Where(order => order.User.UserName == UserName)
+           .ToArrayAsync())
+           .Select(order => order.ToDTO());
+            ////
+            .Include("OrderItems")
+            .Include("User")
+            .FirstOrDefault(x => x.Id == id);
+            ////
+            return new OrderDTO
             {
-                var order = new Order()
+                Id = ord.Id,
+                Name = ord.Name,
+                Phone = ord.Phone,
+                Address = ord.Address,
+                Date = ord.Date,
+                Items = ord.OrderItems.Select
+            };
+        }
+*/
+        public async Task<OrderDTO> CreateOrder(string UserName, CreateOrderModel OrderModel)
+        {
+            var user = await _userManager.FindByNameAsync(UserName);
+            if (user is null) throw new InvalidOperationException($"Пользователь {UserName} на найден");
+
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+
+            var order = new Order
+            {
+                Name = OrderModel.Order.Name,
+                Address = OrderModel.Order.Address,
+                Phone = OrderModel.Order.Phone,
+                User = user,
+                Date = DateTime.Now
+            };
+
+            foreach (var item in OrderModel.Items)
+            {
+                var product = await _context.Products.FindAsync(item.Id);
+                if (product is null) continue;
+
+                var order_item = new OrderItem
                 {
-                    Address = orderModel.Address,
-                    Name = orderModel.Name,
-                    Date = DateTime.Now,
-                    Phone = orderModel.Phone,
-                    User = user
+                    Order = order,
+                    Price = product.Price, // здесь может быть применена скидка
+                    Quantity = item.Id,
+                    Product = product
                 };
-
-                _context.Orders.Add(order);
-
-                foreach (var item in transformCart.Items)
-                {
-                    var productVm = item.Key;
-                    var product = _context.Products.FirstOrDefault(p => p.Id.Equals(productVm.Id));
-                    
-                    if (product == null)
-                        throw new InvalidOperationException("Продукт не найден в базе");
-
-                    var orderItem = new OrderItem()
-                    {
-                        Price = product.Price,
-                        Quantity = item.Value,
-
-                        Order = order,
-                        Product = product
-                    };
-
-                    _context.OrderItems.Add(orderItem);
-                }
-
-                _context.SaveChanges();
-                transaction.Commit();
-
-                return order;
+                order.OrderItems.Add(order_item);
             }
+
+            await _context.Orders.AddAsync(order);
+            //await _db.OrderItems.AddRangeAsync(order.Items); // излишняя операция - элементы заказа и так попадут в БД
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+
+            return order.ToDTO();
         }
     }
 }

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
 
 namespace WebStoreCoreApplicationControllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly IOrdersService _ordersService;
@@ -22,9 +24,9 @@ namespace WebStoreCoreApplicationControllers
             return View();
         }
 
-        public IActionResult Orders()
+        public async Task<IActionResult> Orders([FromServices] IOrdersService _ordersService)
         {
-            var orders = _ordersService.GetUserOrders(User.Identity.Name);
+            var orders = await _ordersService.GetUserOrders(User.Identity.Name);
 
             var orderModels = new List<UserOrderViewModel>(orders.Count());
 
@@ -36,7 +38,7 @@ namespace WebStoreCoreApplicationControllers
                     Name = order.Name,
                     Address = order.Address,
                     Phone = order.Phone,
-                    TotalSum = order.OrderItems.Sum(o => o.Price * o.Quantity)
+                    TotalSum = order.Items.Sum(o => o.Price * o.Quantity)
                 });
             }
 

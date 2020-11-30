@@ -1,4 +1,4 @@
-﻿@model WebStoreCoreApplication.Domain.ViewModels.EmployeeViewModel
+﻿@model WebStoreCoreApplication.Domain.Entities.Employee
 
 <!DOCTYPE html>
 
@@ -15,15 +15,15 @@
         </tr>
         <tr>
             <td>Имя</td>
-            <td>@Model.IName</td>
+            <td>@Model.Name</td>
         </tr>
         <tr>
             <td>Фамилия</td>
-            <td>@Model.FName</td>
+            <td>@Model.Surname</td>
         </tr>
         <tr>
             <td>Отчество</td>
-            <td>@Model.OName</td>
+            <td>@Model.Patronymic</td>
         </tr>
         <tr>
             <td>Возраст</td>
@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <td>Должность</td>
-            <td>@Model.Position</td>
+            <td>@Model.EmployementDate</td>
         </tr>
         <tr>
             <td>

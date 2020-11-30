@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebStoreCoreApplication.Domain.Entities.Base
 {
-    public class NameEntity : INamedEntity
+    public class NameEntity :  INamedEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

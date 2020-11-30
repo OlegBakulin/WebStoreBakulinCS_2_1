@@ -1,6 +1,6 @@
 ﻿namespace WebStoreCoreApplication.Domain.ViewModels
 {
-    public class CartItem
+    public class CartItemViewModel
     {
         public int ProductId { get; set; }
         public int Quantity { get; set; }
