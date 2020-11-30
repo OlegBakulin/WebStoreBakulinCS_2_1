@@ -52,6 +52,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,12 +73,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\WebStoreCoreApplication.Domain\WebStoreCoreApplication.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\WebStoreBakulin.Clients\WebStoreBakulin.Clients.csproj" />
     <ProjectReference Include="..\..\Services\WebStoreBakulin.Interfaces\WebStoreBakulin.Interfaces.csproj" />
     <ProjectReference Include="..\..\Services\WebStoreBakulin.Services\WebStoreBakulin.Services.csproj" />
     <ProjectReference Include="..\..\Services\WebStoreCoreApplicatioc.DAL\WebStoreCoreApplicatioc.DAL.csproj" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" libman_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
 

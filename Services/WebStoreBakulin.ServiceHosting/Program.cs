@@ -18,9 +18,9 @@ namespace WebStoreBakulin.ServiceHosting
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+                .ConfigureWebHostDefaults(host =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    host.UseStartup<Startup>();
                 });
     }
 }

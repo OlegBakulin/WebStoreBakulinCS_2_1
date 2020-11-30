@@ -1,0 +1,33 @@
+﻿@model IEnumerable<string>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <h3>Тест WebAPI</h3>
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Value</th>
+                <th>Детльно</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var i = 1; }
+            @foreach (var value in Model)
+            {
+            <tr>
+                <td>@(i++)</td>
+                <td>@value</td>
+                <td>
+                    @Html.ActionLink("Детали", "ValueByID", new { id = i - 1 }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = i - 1})
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
