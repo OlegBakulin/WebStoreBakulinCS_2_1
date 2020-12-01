@@ -16,7 +16,7 @@ using WebStoreBakulin.Interfaces.Services;
 using WebStoreBakulin.Services.Data;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Controllers.Infrastructure.Services;
-using WebStoreCoreApplication.Domain.Entities;
+using WebStoreCoreApplication.Domain.Entities.Identity;
 
 namespace WebStoreBakulin.ServiceHosting
 {
