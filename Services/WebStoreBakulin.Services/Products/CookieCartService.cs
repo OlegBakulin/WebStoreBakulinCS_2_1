@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStoreBakulin.Services.Mapping;
+using WebStoreCoreApplication.Domain;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreCoreApplication.Domain.ViewModels;
@@ -46,11 +46,16 @@ namespace WebStoreBakulin.Services.Products
             _productService = productService;
             _httpContextAccessor = httpContextAccessor;
 
+            var user = httpContextAccessor.HttpContext.User;
+            var user_name = user.Identity.IsAuthenticated ? $"{user.Identity.Name}" : null;
+            _cartName = $"WebStore.Cart-{user_name}";
+            /*
             _cartName = "cart_"
                         + (_httpContextAccessor
                             .HttpContext.User.Identity.IsAuthenticated
                             ? _httpContextAccessor.HttpContext.User.Identity.Name
                             : "");
+            */
         }
 
         public void DecrementFromCart(int id)
@@ -86,7 +91,12 @@ namespace WebStoreBakulin.Services.Products
 
         public void RemoveAll()
         {
-            Cart.Items.Clear();
+            var cart = Cart;
+
+            cart.Items.Clear();
+
+            Cart = cart;
+            // Cart.Items.Clear();
         }
 
         public void AddToCart(int id)
@@ -104,6 +114,18 @@ namespace WebStoreBakulin.Services.Products
 
         public CartViewModel TransformCart()
         {
+            var products = _productService.GetProducts(new ProductFilter
+            {
+                Ids = Cart.Items.Select(item => item.ProductId).ToArray()
+            });
+
+            var products_view_models = products.FromDTO().ToView().ToDictionary(p => p.Id);
+
+            return new CartViewModel
+            {
+                Items = Cart.Items.Select(item => (products_view_models[item.ProductId], item.Quantity))
+            };
+            /*
             var products = _productService.GetProducts(new ProductFilter
             {
                 Ids = Cart.Items.Select(i => i.ProductId).ToArray()
@@ -125,6 +147,7 @@ namespace WebStoreBakulin.Services.Products
             };
 
             return r;
+            */
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreBakulin.Interfaces.Services;
@@ -60,7 +61,8 @@ namespace WebStoreCoreApplication.Controllers
             return RedirectToAction(nameof(Details));
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        //[HttpPost, ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> CheckOut(OrderViewModel OrderModel, [FromServices] IOrdersService OrderService)
         {
             if (!ModelState.IsValid)

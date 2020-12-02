@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WebStoreCoreApplication.Domain.Entities;
-using WebStoreCoreApplication.Domain.ViewModels;
 
 namespace WebStoreBakulin.Interfaces.Services
 {
     public interface IEmployeeService
     {
-        IEnumerable<Employee> GetAll();
+        IEnumerable<Employee> Get();
 
-        Employee GetByID(int id);
+        Employee GetById(int id);
 
-        int AddNew(Employee newmodel);
+        int Add(Employee employee);
+
+        void Edit(Employee employee);
 
         bool Delete(int id);
-     
-        void Commit();
+
+        void SaveChanges();
     }
 }

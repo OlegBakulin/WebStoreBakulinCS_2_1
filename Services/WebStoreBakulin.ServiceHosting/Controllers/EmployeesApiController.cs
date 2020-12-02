@@ -21,33 +21,40 @@ namespace WebStoreCoreApplication.Controllers
         public EmployeesApiController(IEmployeeService EmployeesData) => _EmployeesData = EmployeesData;
         
         [HttpGet]
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<Employee> Get()
         {
-            return _EmployeesData.GetAll();
+            return _EmployeesData.Get();
         }
 
         [HttpGet("{id}")]
-        public Employee GetByID(int id)
+        public Employee GetById(int id)
         {
-            return _EmployeesData.GetByID(id);
+            return _EmployeesData.GetById(id);
         }
 
         [HttpPost]
-        public int AddNew(Employee newmodel)
+        public int Add([FromBody] Employee newmodel)
         {
-            HttpResponseMessage message = new HttpResponseMessage();
-            _EmployeesData.AddNew(newmodel);
-            return (int)message.StatusCode;
+            var id = _EmployeesData.Add(newmodel);
+            SaveChanges();
+            return id;
+        }
+        [HttpPut /*("{id}")*/]
+        public void Edit( /*int id, */ Employee employee)
+        {
+            _EmployeesData.Edit(employee);
+            SaveChanges();
         }
         [NonAction]
-        public void Commit()
-        {
-            _EmployeesData.Commit();
-        }
+        
         [HttpDelete("{id}")]
         bool IEmployeeService.Delete(int id)
         {
-            return _EmployeesData.Delete(id);
+            var res = _EmployeesData.Delete(id);
+            SaveChanges();
+            return res;
         }
+
+        public void SaveChanges() => _EmployeesData.SaveChanges();
     }
 }

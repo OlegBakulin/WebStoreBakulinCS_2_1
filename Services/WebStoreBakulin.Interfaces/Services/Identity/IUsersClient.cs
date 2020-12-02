@@ -2,7 +2,7 @@
 using WebStoreCoreApplication.Domain.Entities.Identity;
 
 
-namespace WebStore.Interfaces.Services.Identity
+namespace WebStoreBakulin.Interfaces.Services.Identity
 {
     public interface IUsersClient :
         IUserRoleStore<User>,

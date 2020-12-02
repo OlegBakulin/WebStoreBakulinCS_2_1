@@ -8,9 +8,9 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure
 {
     public class TokenMiddleware
     {
-        private const string correctToken = "qwerty123";
+        //private const string correctToken = "qwerty123";
 
-        public RequestDelegate Next { get; }
+        private readonly RequestDelegate Next;
 
         public TokenMiddleware(RequestDelegate next)
         {
@@ -19,6 +19,8 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure
 
         public async Task InvokeAsync(HttpContext context)
         {
+            await Next(context);
+            /*
             var token = context.Request.Query["referenceToken"];
 
             if (string.IsNullOrEmpty(token))
@@ -35,6 +37,7 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure
                 await context.Response.WriteAsync("Token is incorrect");
             }
             return;
+            */
         }
     }
 }

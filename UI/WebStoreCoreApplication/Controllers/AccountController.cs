@@ -22,9 +22,9 @@ namespace WebStoreCoreApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl)
         {
-            return View(new LoginViewModel());
+            return View(new LoginViewModel { ReturnUrl = ReturnUrl });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -32,7 +32,11 @@ namespace WebStoreCoreApplication.Controllers
         {
             if (!ModelState.IsValid) { return View(model); }
 
-            var loginResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+            var loginResult = await _signInManager.PasswordSignInAsync(
+                model.UserName,
+                model.Password,
+                model.RememberMe,
+                false);
 
             if (!loginResult.Succeeded)
             {
@@ -52,7 +56,7 @@ namespace WebStoreCoreApplication.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            return View(new RegisterUserViewModel());
         }
 
 
@@ -63,8 +67,23 @@ namespace WebStoreCoreApplication.Controllers
 
             var user = new User { UserName = model.UserName, Email = model.Email };
 
-            var createResult = await _userManager.CreateAsync(user, model.Password);
+            var registration_result = await _userManager.CreateAsync(user, model.Password);
+            if (registration_result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, Role.User);
 
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Base");
+            }
+
+            foreach (var error in registration_result.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
+
+            return View(model);
+
+            /*
+            var createResult = await _userManager.CreateAsync(user, model.Password);
+            
             if (!createResult.Succeeded)
             {
                 foreach (var identityError in createResult.Errors)//выводим ошибки
@@ -77,6 +96,7 @@ namespace WebStoreCoreApplication.Controllers
             await _signInManager.SignInAsync(user, false);
             await _userManager.AddToRoleAsync(user, "User");
             return RedirectToAction("Index", "Base");
+            */
         }
 
 

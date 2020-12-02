@@ -15,9 +15,11 @@
   {
     "outputFileName": "wwwroot/lib/twitter-bootstrap/js/site.min.js",
     "inputFiles": [
+      
+      "wwwroot/lib/twitter-bootstrap/js/main.js",
       "wwwroot/lib/twitter-bootstrap/js/price-range.js",
-      "wwwroot/lib/twitter-bootstrap/js/jquery.prettyPhoto.js",
-      "wwwroot/lib/twitter-bootstrap/js/main.js"
+      "wwwroot/lib/twitter-bootstrap/js/jquery.prettyPhoto.js"
+
     ],
     // Optionally specify minification options
     "minify": {

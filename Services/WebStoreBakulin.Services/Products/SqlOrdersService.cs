@@ -27,7 +27,7 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 
 
         public async Task<IEnumerable<OrderDTO>> GetUserOrders(string userName)
-    {
+        {
             return await _context
                 .Orders
                 .Include(x => x.User)

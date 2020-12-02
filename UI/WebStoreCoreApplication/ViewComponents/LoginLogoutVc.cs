@@ -8,9 +8,8 @@ namespace WebStoreCoreApplication.ViewComponents
 {
     public class LoginLogoutVc : ViewComponent
     {
-        public IViewComponentResult Invoke()
-        {
-            return View();
-        }
+        public IViewComponentResult Invoke() => User.Identity?.IsAuthenticated == true
+            ? View("UserInfo")
+            : View();
     }
 }
