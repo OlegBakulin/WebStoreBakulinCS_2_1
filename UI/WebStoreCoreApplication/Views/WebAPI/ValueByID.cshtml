@@ -1,4 +1,4 @@
-﻿@model string
+﻿@model IEnumerable<string>
 
 @{
     Layout = null;
@@ -13,16 +13,23 @@
 </head>
 <body>
 
-<div>
-    <h4>ValueClient</h4>
-    <hr />
-    <dl class="dl-horizontal">
-    </dl>
-</div>
-<div>
-    @Model
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
-</body>
+    <div>
+        <h4>ValueClient</h4>
+        <hr />
+        <dl class="dl-horizontal">
+        </dl>
+    </div>
+    <table class="table">
+        
+            
+            @foreach (var value in Model)
+            {
+                <tr>
+                    <td>@value</td>
+                    <a asp-action="Index">Back to List</a>
+                </tr>
+            }
+            
+            </table>
+    </body>
 </html>
