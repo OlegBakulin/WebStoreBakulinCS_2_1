@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WebStoreCoreApplication.Domain.DTO.Identity
 {
-    public class ClaimDTO
+    public class ClaimDTO : UserDTO
     {
         public IEnumerable<Claim> Claim { get; set; }
     }

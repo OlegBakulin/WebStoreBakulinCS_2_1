@@ -19,12 +19,10 @@ namespace WebStoreCoreApplication.Controllers
         private readonly IEmployeeService _EmployeesData;
 
         public EmployeesApiController(IEmployeeService EmployeesData) => _EmployeesData = EmployeesData;
-        
+
         [HttpGet]
-        IEnumerable<Employee> IEmployeeService.Get()
-        {
-            return _EmployeesData.Get();
-        }
+        public IEnumerable<Employee> Get() => _EmployeesData.Get();
+
 
         [HttpGet("{id}")]
         public Employee GetById(int id)
@@ -33,30 +31,30 @@ namespace WebStoreCoreApplication.Controllers
         }
 
         [HttpPost]
-        public int Add(Employee newmodel)
+        public int Add([FromBody] Employee employee)
         {
-            HttpResponseMessage message = new HttpResponseMessage();
-            _EmployeesData.Add(newmodel);
-            return (int)message.StatusCode;
+            var id = _EmployeesData.Add(employee);
+            SaveChanges();
+            return id;
         }
         [NonAction]
-        void IEmployeeService.SaveChanges()
-        {
-            _EmployeesData.SaveChanges();
-        }
+        public void SaveChanges() => _EmployeesData.SaveChanges();
 
         [HttpDelete("{id}")]
-        bool IEmployeeService.Delete(int id)
+        public bool Delete(int id)
         {
-            return _EmployeesData.Delete(id);
+            var result = _EmployeesData.Delete(id);
+            SaveChanges();
+            return result;
         }
 
-        void IEmployeeService.Edit(Employee employee)
+        [HttpPut /*("{id}")*/]
+        public void Edit( /*int id, */ Employee employee)
         {
-            HttpResponseMessage message = new HttpResponseMessage();
             _EmployeesData.Edit(employee);
+            SaveChanges();
         }
 
-        
+
     }
 }
