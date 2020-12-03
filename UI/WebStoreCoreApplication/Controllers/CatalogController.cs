@@ -38,7 +38,7 @@ namespace WebStoreCoreApplication.Controllers
                 Name = product.Name,
                 Order = product.Order,
                 Price = product.Price,
-                BrandName = product.Brand?.Name ?? string.Empty
+                Brand = product.Brand?.Name ?? string.Empty
             });
 
         }

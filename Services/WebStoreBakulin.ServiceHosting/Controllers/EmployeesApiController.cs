@@ -12,7 +12,7 @@ using WebStoreCoreApplication.Domain.Entities;
 
 namespace WebStoreCoreApplication.Controllers
 {
-    [Route(WebApiAdress.EmployeesAdress)]
+    [Route(WebApiAdress.Employees)]
     [ApiController]
     public class EmployeesApiController : ControllerBase, IEmployeeService
     {
@@ -21,33 +21,42 @@ namespace WebStoreCoreApplication.Controllers
         public EmployeesApiController(IEmployeeService EmployeesData) => _EmployeesData = EmployeesData;
         
         [HttpGet]
-        public IEnumerable<Employee> GetAll()
+        IEnumerable<Employee> IEmployeeService.Get()
         {
-            return _EmployeesData.GetAll();
+            return _EmployeesData.Get();
         }
 
         [HttpGet("{id}")]
-        public Employee GetByID(int id)
+        public Employee GetById(int id)
         {
-            return _EmployeesData.GetByID(id);
+            return _EmployeesData.GetById(id);
         }
 
         [HttpPost]
-        public int AddNew(Employee newmodel)
+        public int Add(Employee newmodel)
         {
             HttpResponseMessage message = new HttpResponseMessage();
-            _EmployeesData.AddNew(newmodel);
+            _EmployeesData.Add(newmodel);
             return (int)message.StatusCode;
         }
         [NonAction]
-        public void Commit()
+        void IEmployeeService.SaveChanges()
         {
-            _EmployeesData.Commit();
+            _EmployeesData.SaveChanges();
         }
+
         [HttpDelete("{id}")]
         bool IEmployeeService.Delete(int id)
         {
             return _EmployeesData.Delete(id);
         }
+
+        void IEmployeeService.Edit(Employee employee)
+        {
+            HttpResponseMessage message = new HttpResponseMessage();
+            _EmployeesData.Edit(employee);
+        }
+
+        
     }
 }

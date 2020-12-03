@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebStoreBakulin.Clients.Base
 {
-    public class BaseClient
+    public class BaseClient : IDisposable
     {
         protected readonly string _ServiceAddress;
         protected readonly HttpClient _Client;
