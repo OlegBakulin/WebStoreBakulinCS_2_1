@@ -11,7 +11,7 @@ namespace WebStoreBakulin.Clients.Value
 {
     public class ValueClient : BaseClient, IValueService
     {
-        public ValueClient(IConfiguration Configuration) : base(Configuration, "api/v1/values") 
+        public ValueClient(IConfiguration Configuration) : base(Configuration, "api/values") 
         { 
         }
         public IEnumerable<string> Get()

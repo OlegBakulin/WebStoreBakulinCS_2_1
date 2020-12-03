@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStoreBakulin.Interfaces.Services;
-using WebStoreBakulin.Services.Data;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreCoreApplication.Domain.ViewModels;
 
@@ -11,9 +10,7 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {
     public class InMemoryEmployeeServices : IEmployeeService
     {
-        private readonly List<Employee> _employees = TestData.Employees;
-        /*
-        new List<Employee>
+        private readonly List<Employee> _employees = new List<Employee>
         {
             new Employee
             {
@@ -34,19 +31,18 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
                 EmployementDate = DateTime.Now.Subtract(TimeSpan.FromDays(300 * 7))
             }
         }; 
-        */
-
-        public IEnumerable<Employee> Get()
+        
+        public IEnumerable<Employee> GetAll()
         {
             return _employees;
         }
 
-        public Employee GetById(int id)
+        public Employee GetByID(int id)
         {
             return _employees.FirstOrDefault(e => e.Id.Equals(id));
         }
         
-        public int Add(Employee newmodel)
+        public int AddNew(Employee newmodel)
         {
             if (newmodel is null)
                     throw new ArgumentNullException(nameof(newmodel));
@@ -58,36 +54,14 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
                 return newmodel.Id;
         }
 
+        public void Commit() { }
+
         public bool Delete(int id)
         {
-            return _employees.RemoveAll(e => e.Id == id) > 0;
-            /*
             var employee = GetByID(id);
             if (employee is null) return false;
             _employees.Remove(employee);
             return true;
-            */
-        }
-
-        public void Edit(Employee employee)
-        {
-            if (employee is null)
-                throw new ArgumentNullException(nameof(employee));
-
-            if (_employees.Contains(employee)) return;
-
-            var db_employee = GetById(employee.Id);
-            if (db_employee is null) return;
-
-            db_employee.Name = employee.Name;
-            db_employee.Surname = employee.Surname;
-            db_employee.Patronymic = employee.Patronymic;
-            db_employee.Age = employee.Age;
-        }
-
-        public void SaveChanges()
-        {
-            throw new NotImplementedException();
         }
     }
 }

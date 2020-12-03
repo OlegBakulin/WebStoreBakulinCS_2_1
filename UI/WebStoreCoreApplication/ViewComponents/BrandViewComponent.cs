@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreBakulin.Interfaces.Services;
-using WebStoreBakulin.Services.Mapping;
 using WebStoreCoreApplication.Controllers.Infrastructure.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
 
@@ -12,21 +11,28 @@ namespace WebStoreCoreApplication.ViewComponents
 {
     public class BrandViewComponent : ViewComponent
     {
-        private readonly IProductServices _ProductData;
+        private readonly IProductServices _productServices;
+        public BrandViewComponent(IProductServices productServices)
+        {
+            _productServices = productServices;
+        }
+        
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var brand = GetBrands();
+            return View(brand);
+        }
 
-        public BrandViewComponent(IProductServices ProductData) => _ProductData = ProductData;
-
-        public IViewComponentResult Invoke() => View(GetBrands());
-
-        private IEnumerable<BrandViewModel> GetBrands() =>
-            _ProductData.GetBrands()
-               .Select(b => b.FromDTO())
-               .Select(brand => new BrandViewModel
-               {
-                   Id = brand.Id,
-                   Name = brand.Name,
-                   Order = brand.Order
-               })
-               .OrderBy(brand => brand.Order);
+        private IEnumerable<BrandViewModel> GetBrands()
+        {
+            var dbbrand = _productServices.GetBrands();
+            return dbbrand.Select(b => new BrandViewModel
+            {
+                Id = b.Id,
+                Name = b.Name,
+                Order = b.Order,
+                ProdCount = 0
+            }).OrderBy(b => b.Order).ToList();
+        }
     }
 }

@@ -1,13 +1,14 @@
-﻿using System;
-using System.Net.Http;
+﻿using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
-using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace WebStoreBakulin.Clients.Base
 {
-    public abstract class BaseClient : IDisposable
+    public class BaseClient
     {
         protected readonly string _ServiceAddress;
         protected readonly HttpClient _Client;
@@ -20,36 +21,37 @@ namespace WebStoreBakulin.Clients.Base
                 BaseAddress = new Uri(Configuration["WebApiURL"]),
                 DefaultRequestHeaders =
                 {
-                    Accept = { new MediaTypeWithQualityHeaderValue("application/json") }
+                    Accept = { new MediaTypeWithQualityHeaderValue("application/json")}
                 }
             };
         }
 
         public T Get<T>(string url) => GetAsync<T>(url).Result;
-        public async Task<T> GetAsync<T>(string url, CancellationToken Cancel = default)
+
+        public async Task<T> GetAsync<T>(string url)
         {
-            var response = await _Client.GetAsync(url, Cancel);
-            return await response.EnsureSuccessStatusCode().Content.ReadAsAsync<T>(Cancel);
+            var response = await _Client.GetAsync(url);
+            return await response.EnsureSuccessStatusCode().Content.ReadAsAsync<T>();
         }
 
         public HttpResponseMessage Post<T>(string url, T item) => PostAsync(url, item).Result;
-        public async Task<HttpResponseMessage> PostAsync<T>(string url, T item, CancellationToken Cancel = default)
+
+        public async Task<HttpResponseMessage> PostAsync<T>(string url, T item)
         {
-            var response = await _Client.PostAsJsonAsync(url, item, Cancel);
+            var response = await _Client.PutAsJsonAsync<T>(url, item);
             return response.EnsureSuccessStatusCode();
         }
-
         public HttpResponseMessage Put<T>(string url, T item) => PutAsync(url, item).Result;
-        public async Task<HttpResponseMessage> PutAsync<T>(string url, T item, CancellationToken Cancel = default)
+        public async Task<HttpResponseMessage> PutAsync<T>(string url, T item)
         {
-            var response = await _Client.PutAsJsonAsync(url, item, Cancel);
+            var response = await _Client.PutAsJsonAsync(url, item);
             return response.EnsureSuccessStatusCode();
         }
 
         public HttpResponseMessage Delete(string url) => DeleteAsync(url).Result;
-        public async Task<HttpResponseMessage> DeleteAsync(string url, CancellationToken Cancel = default)
+        public async Task<HttpResponseMessage> DeleteAsync(string url)
         {
-            var response = await _Client.DeleteAsync(url, Cancel);
+            var response = await _Client.DeleteAsync(url);
             return response;
         }
 

@@ -14,19 +14,40 @@ namespace WebStoreBakulin.Clients.Employees
 {
     public class EmployeesClient : BaseClient, IEmployeeService
     {
-        public EmployeesClient(IConfiguration Configuration) : base(Configuration, WebApiAdress.EmployeesAdress) { }
-
-        public IEnumerable<Employee> Get() => Get<IEnumerable<Employee>>(_ServiceAddress);
-
-        public Employee GetById(int id) => Get<Employee>($"{_ServiceAddress}/{id}");
-
-        public int Add(Employee employee) => Post(_ServiceAddress, employee).Content.ReadAsAsync<int>().Result;
-
-        //public void Edit(int id, Employee employee) => Put($"{_ServiceAddress}/{id}", employee);
-        public void Edit(Employee employee) => Put(_ServiceAddress, employee);
-
-        public bool Delete(int id) => Delete($"{_ServiceAddress}/{id}").IsSuccessStatusCode;
+        protected readonly string ServiceAddress;
+        protected readonly HttpClient Client;
+        protected EmployeesClient(IConfiguration Configuration, string ServiceAddress) : base(Configuration, WebApiAdress.EmployeesAdress)
+        {
+        }
 
         public void SaveChanges() { }
+
+
+
+
+
+        public IEnumerable<Employee> GetAll() => Get<IEnumerable<Employee>>(ServiceAddress);
+
+        public Employee GetByID(int id) => Get<Employee>($"{ServiceAddress}/{id}");
+
+        public int AddNew(Employee employee)
+        {
+            return Post(ServiceAddress, employee).Content.ReadAsAsync<int>().Result;   
+        }
+
+        public bool Edit(EmployeeViewModel employee)
+        {
+            HttpResponseMessage message;
+            message = Put(ServiceAddress, employee);
+            return message.IsSuccessStatusCode;
+        }
+
+        //public void Edit(int id, Employee employee) => Put($"{_ServiceAddress}/{id}", employee);
+        public bool Delete(int id) => Delete($"{_ServiceAddress}/{id}").IsSuccessStatusCode;
+
+        public void Commit()
+        {
+        }
+
     }
 }

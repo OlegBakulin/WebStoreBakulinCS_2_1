@@ -15,22 +15,22 @@ namespace WebStoreBakulin.ServiceHosting.Controllers
     [ApiController]
     public class ProductsApiController : ControllerBase, IProductServices 
     {
-        private readonly IProductServices _ProductServices;
+        private readonly IProductServices _ProductData;
 
-        public ProductsApiController(IProductServices ProductData) => _ProductServices = ProductData;
+        public ProductsApiController(IProductServices ProductData) => _ProductData = ProductData;
 
         [HttpGet("category")] // http://localhost:5001/api/products/category
-        public IEnumerable<CategoryDTO> GetCategories() => _ProductServices.GetCategories();
+        public IEnumerable<CategoryDTO> GetCategories() => _ProductData.GetCategories();
 
         [HttpGet("brands")] // http://localhost:5001/api/products/brands
-        public IEnumerable<BrandDTO> GetBrands() => _ProductServices.GetBrands();
+        public IEnumerable<BrandDTO> GetBrands() => _ProductData.GetBrands();
 
         [HttpPost]
         public IEnumerable<ProductDTO> GetProducts([FromBody] ProductFilter Filter = null) =>
-            _ProductServices.GetProducts(Filter ?? new ProductFilter());
+            _ProductData.GetProducts(Filter ?? new ProductFilter());
 
         [HttpGet("{id}")]
-        public ProductDTO GetProductById(int id) => _ProductServices.GetProductById(id);
+        public ProductDTO GetProductById(int id) => _ProductData.GetProductById(id);
     }
 }
 

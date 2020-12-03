@@ -10,9 +10,9 @@ namespace WebStoreBakulin.Services.Mapping
         public static EmployeeViewModel ToView(this Employee employee) => new EmployeeViewModel
         {
             Id = employee.Id,
-            FirstName = employee.Name,
-            LastName = employee.Surname,
-            Patronymic = employee.Patronymic,
+            IName = employee.Name,
+            FName = employee.Surname,
+            OName = employee.Patronymic,
             Age = employee.Age,
             EmployementDate = employee.EmployementDate
         };
@@ -22,9 +22,9 @@ namespace WebStoreBakulin.Services.Mapping
         public static Employee FromView(this EmployeeViewModel Model) => new Employee
         {
             Id = Model.Id,
-            Surname = Model.LastName,
-            Name = Model.FirstName,
-            Patronymic = Model.Patronymic,
+            Surname = Model.FName,
+            Name = Model.IName,
+            Patronymic = Model.OName,
             Age = Model.Age,
             EmployementDate = Model.EmployementDate
         };

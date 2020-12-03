@@ -19,20 +19,20 @@ namespace WebStoreCoreApplication.Controllers
     {
         private readonly IEmployeeService employeeService;
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public IEnumerable<Employee> GetAll()
         {
-           return employeeService.Get();
+           return employeeService.GetAll();
         }
         [HttpGet("{id}")]
-        public Employee GetById(int id)
+        public Employee GetByID(int id)
         {
-            return employeeService.GetById(id);
+            return employeeService.GetByID(id);
         }
         [HttpPost("{id?}")]
-        public int Add(Employee newmodel)
+        public int AddNew(Employee newmodel)
         {
             HttpResponseMessage message = new HttpResponseMessage();
-            employeeService.Add(newmodel);
+            employeeService.AddNew(newmodel);
             RedirectToAction(nameof(Index));
             return (int)message.StatusCode;
         }
@@ -45,17 +45,11 @@ namespace WebStoreCoreApplication.Controllers
         }
 
         [NonAction]
-        public void SaveChanges()
+        public void Commit()
         {
-            employeeService.SaveChanges();
+            employeeService.Commit();
         }
 
-        public void Edit(Employee employee)
-        {
-            employeeService.Edit(employee);
-            SaveChanges();
-        }
-
-
+        
     }
 }

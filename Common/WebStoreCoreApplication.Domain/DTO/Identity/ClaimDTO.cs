@@ -5,9 +5,9 @@ using System.Text;
 
 namespace WebStoreCoreApplication.Domain.DTO.Identity
 {
-    public abstract class ClaimDTO : UserDTO
+    public class ClaimDTO
     {
-        public IEnumerable<Claim> Claims { get; set; }
+        public IEnumerable<Claim> Claim { get; set; }
     }
 
     public class AddClaimDTO : ClaimDTO { }

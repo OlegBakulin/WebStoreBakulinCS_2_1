@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreBakulin.Interfaces.Services;
-using WebStoreCoreApplication.Domain;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreCoreApplication.Domain.ViewModels;
 
@@ -39,12 +38,12 @@ namespace WebStoreCoreApplication.Controllers
                 Name = product.Name,
                 Order = product.Order,
                 Price = product.Price,
-                Brand = product.Brand?.Name ?? string.Empty
+                BrandName = product.Brand?.Name ?? string.Empty
             });
 
         }
 
-        public IActionResult Shop( int? brandId, int? categoryId)
+        public IActionResult Shop(int? categoryId, int? brandId)
         {
             var products = _productServices.GetProducts(new ProductFilter { BrandId = brandId, CategoryId = categoryId });
 

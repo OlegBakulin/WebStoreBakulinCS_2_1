@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using WebStoreCoreApplication.Domain.DTO.Products;
-using WebStoreCoreApplication.Domain;
+using WebStoreCoreApplication.Domain.Entities;
 
 namespace WebStoreBakulin.Interfaces.Services
 {
@@ -10,6 +10,5 @@ namespace WebStoreBakulin.Interfaces.Services
         IEnumerable<BrandDTO> GetBrands();
         IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null);
         ProductDTO GetProductById(int id);
-     
     }
 }

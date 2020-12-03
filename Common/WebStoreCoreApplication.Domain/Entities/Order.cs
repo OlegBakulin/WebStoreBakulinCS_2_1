@@ -11,11 +11,11 @@ namespace WebStoreCoreApplication.Domain.Entities
 {
     public class Order : NameEntity
     {
-        public virtual User User { get; set; } // внешний ключ в БД
         public string Phone { get; set; }
         public string Address { get; set; }
         public DateTime Date { get; set; }
-                
+
+        public virtual User User { get; set; } // внешний ключ в БД
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
     public class OrderItem : BaseEntity

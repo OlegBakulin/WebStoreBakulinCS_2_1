@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreBakulin.Interfaces.Services;
-using WebStoreCoreApplication.Domain;
 
 namespace WebStore.Areas.Admin.Controllers
 {

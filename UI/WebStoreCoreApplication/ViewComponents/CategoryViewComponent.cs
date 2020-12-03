@@ -10,47 +10,50 @@ namespace WebStoreCoreApplication.ViewComponents
 {
     public class CategoryViewComponent : ViewComponent
     {
-        private readonly IProductServices _ProductData;
-
-        public CategoryViewComponent(IProductServices ProductData) => _ProductData = ProductData;
-
-        public IViewComponentResult Invoke() => View(GetSections());
-
-        //public async Task<IViewComponentResult> Invoke() => View();
-
-        private IEnumerable<CategoryViewModel> GetSections()
+        private readonly IProductServices _productservice;
+        public CategoryViewComponent(IProductServices productServices)
         {
-            var sections = _ProductData.GetCategories().ToArray();
+            _productservice = productServices;
+        }
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var Category = GetCategories();
+            return View(Category);
+        }
 
-            var parent_sections = sections.Where(s => s.ParentId is null);
-
-            var parent_sections_views = parent_sections
-               .Select(s => new CategoryViewModel
-               {
-                   Id = s.Id,
-                   Name = s.Name,
-                   Order = s.Order
-               })
-               .ToList();
-
-            foreach (var parent_section in parent_sections_views)
+        private List<CategoryViewModel> GetCategories()
+        {
+            var categories = _productservice.GetCategories();
+            var parentsection = categories.Where(p => !p.ParentId.HasValue).ToArray();
+            var parentcategory = new List<CategoryViewModel>();
+            foreach (var parcat in parentsection)
             {
-                var childs = sections.Where(s => s.ParentId == parent_section.Id);
-
-                foreach (var child_section in childs)
-                    parent_section.ChildCategories.Add(new CategoryViewModel
-                    {
-                        Id = child_section.Id,
-                        Name = child_section.Name,
-                        Order = child_section.Order,
-                        ParentCategory = parent_section
-                    });
-
-                parent_section.ChildCategories.Sort((a, b) => Comparer<double>.Default.Compare(a.Order, b.Order));
+                parentcategory.Add(new CategoryViewModel()
+                {
+                    Id = parcat.Id,
+                    Name = parcat.Name,
+                    Order = parcat.Order,
+                    ParentCategory = null
+                });
             }
 
-            parent_sections_views.Sort((a, b) => Comparer<double>.Default.Compare(a.Order, b.Order));
-            return parent_sections_views;
+            foreach (var CatViewModel in parentcategory)
+            {
+                var childcategory = categories.Where(c => c.ParentId == CatViewModel.Id);
+                foreach (var childcat in childcategory)
+                {
+                    CatViewModel.ChildCategories.Add(new CategoryViewModel()
+                    {
+                        Id = childcat.Id,
+                        Name = childcat.Name,
+                        Order = childcat.Order,
+                        ParentCategory = CatViewModel
+                    });
+                }
+                CatViewModel.ChildCategories = CatViewModel.ChildCategories.OrderBy(c => c.Order).ToList();
+            }
+            parentcategory = parentcategory.OrderBy(c => c.Order).ToList();
+            return parentcategory;
         }
     }
 }

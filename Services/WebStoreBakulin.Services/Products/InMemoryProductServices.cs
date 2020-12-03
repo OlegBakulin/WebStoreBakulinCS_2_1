@@ -7,8 +7,6 @@ using WebStoreCoreApplication.Domain.DTO.Order;
 using WebStoreCoreApplication.Domain.DTO.Products;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreBakulin.Services.Mapping;
-using WebStoreBakulin.Services.Data;
-using WebStoreCoreApplication.Domain;
 
 namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {
@@ -407,24 +405,23 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 
         public IEnumerable<BrandDTO> GetBrands()
         {
-            return TestData.Brands.AsEnumerable().Select(b => b.ToDTO());
-            //return (IEnumerable<BrandDTO>)_brands;
+            return (IEnumerable<BrandDTO>)_brands;
         }
 
         public IEnumerable<CategoryDTO> GetCategories()
         {
-            return TestData.Categorys.AsEnumerable().Select(s => s.ToDTO());
-            //return (IEnumerable<CategoryDTO>)_categories;
+            return (IEnumerable<CategoryDTO>)_categories;
         }
 
 
         public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
         {
-            var products = TestData.Products; //_products;
+            var products = _products;
 
             if (filter?.CategoryId != null)
                 products = products
-                    .Where(p => p.CategoryId.Equals(filter.CategoryId));
+                    .Where(p => p.CategoryId.Equals(filter.CategoryId))
+                    .ToList();
             if (filter.BrandId.HasValue)
                 products = products
                     .Where(p => p.BrandId == filter.BrandId)
@@ -435,12 +432,12 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 
         public ProductDTO GetProductById(int id)
         {
-            return TestData.Products.FirstOrDefault(p => p.Id == id).ToDTO();
+
             /*Часть ДЗ 7, которое то же не 
             var products = _products;
             return products.ElementAt(id);
             */
-            //return _products.FirstOrDefault(x => x.Id == id).ToDTO();
+            return _products.FirstOrDefault(x => x.Id == id).ToDTO();
 
             /*
             var productdto = new ProductDTO
@@ -461,7 +458,7 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
                 };
             return productdto;
             */
-        }    
+    }    
 }
 }
 

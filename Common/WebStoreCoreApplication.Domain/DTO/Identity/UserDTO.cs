@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using WebStoreCoreApplication.Domain.Entities.Identity;
 
 namespace WebStoreCoreApplication.Domain.DTO.Identity
 {
-    public abstract class UserDTO
+    public class UserDTO
     {
         public User User { get; set; }
     }

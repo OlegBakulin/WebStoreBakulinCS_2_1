@@ -9,7 +9,6 @@ using WebStoreCoreApplication.Domain.Entities;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreBakulin.Services.Mapping;
 using WebStoreCoreApplication.Domain.DTO.Products;
-using WebStoreCoreApplication.Domain;
 
 namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {

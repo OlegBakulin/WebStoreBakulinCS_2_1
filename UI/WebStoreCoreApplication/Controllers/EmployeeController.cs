@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Cache;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.Entities;
-using WebStoreCoreApplication.Domain.Entities.Identity;
 using WebStoreCoreApplication.Domain.ViewModels;
-using WebStoreBakulin.Services.Mapping;
 
 namespace WebStoreCoreApplication.Controllers
 {
@@ -14,93 +15,144 @@ namespace WebStoreCoreApplication.Controllers
     [Authorize]
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeService _EmployeesData;
+        private readonly IEmployeeService employeeService;
 
-        public EmployeeController(IEmployeeService EmployeesData) => _EmployeesData = EmployeesData;
-
-        //[Route("All")]
-        public IActionResult Index() => View(_EmployeesData.Get().ToView());
-
-        //[Route("User-{id}")]
-        public IActionResult Details(int id)
+        public EmployeeController(IEmployeeService employeeSSService)
         {
-            var employee = _EmployeesData.GetById(id);
-            if (employee is null)
-                return NotFound();
-
-            return View(employee.ToView());
+            employeeService = employeeSSService;
         }
 
-        #region Edit
 
-        //[Authorize(Roles = Role.Administrator)]
-        public IActionResult Edit(int? id)
+        [AllowAnonymous]
+        [Route("idx")]
+        public IActionResult Index()
         {
-            if (id is null) return View(new EmployeeViewModel());
+            return View();
+        }
+        
+        
+        
+        [AllowAnonymous]
+        [Route("all")]
+        public IActionResult Employees()
+        {
+            return View(employeeService.GetAll());
+        }
 
-            if (id < 0)
-                return BadRequest();
+        [Route("{id}")]
+        [Authorize(Roles = "Boss, Admin, Manager")]
+        public IActionResult EmployeeDetails(int id)
+        {
+            var employeeviewmodel = employeeService.GetByID(id);
+            if (employeeviewmodel == null) return NotFound();
+            return View(employeeviewmodel);
+        }
 
-            var employee = _EmployeesData.GetById((int)id);
-            if (employee is null)
-                return NotFound();
 
-            return View(employee.ToView());
+        [HttpGet]
+        [Authorize(Roles = "Boss, Admin")]
+        [Route("NewPeople")]
+        public IActionResult NewUser()
+        {
+            int maxid = 0;
+            foreach (var idempl in employeeService.GetAll())
+            {
+                maxid = idempl.Id;
+            }
+            return View(new Employee {
+                Id = maxid + 1,
+                Name = "Имя",
+                Surname = "Фамилия",
+                Age = 18,
+                Patronymic = null,
+                EmployementDate = DateTime.Now.Subtract(TimeSpan.FromDays(300 * 7))
+            });
+
         }
 
         [HttpPost]
-        //[Authorize(Roles = Role.Administrator)]
-        public IActionResult Edit(EmployeeViewModel Model)
+        [Authorize(Roles = "Boss, Admin")]
+        [Route("NewPeople")]
+        public IActionResult NewUser(Employee model)
         {
-            if (Model is null)
-                throw new ArgumentNullException(nameof(Model));
+            var dbItem = new Employee();// employeeService.GetByID(model.Id);
+            dbItem.Id = model.Id;
+            dbItem.Name = model.Name;
+            dbItem.Surname = model.Surname;
+            dbItem.Age = model.Age;
+            dbItem.Patronymic = model.Patronymic;
+            dbItem.EmployementDate = model.EmployementDate;
+            employeeService.AddNew(dbItem);
+            employeeService.Commit();
+            return RedirectToAction(nameof(Employees));
 
-            if (Model.Age < 18 || Model.Age > 75)
-                ModelState.AddModelError(nameof(Employee.Age), "Возраст должен быть всё же в пределах от 18 до 75");
+        }
 
-            if (Model.FirstName == "123" && Model.LastName == "QWE")
-                ModelState.AddModelError(string.Empty, "Странный выбор для имени и фамилии");
+        [HttpGet]
+        [Route("edit/{id?}")]
+        [Authorize(Roles = "Boss, Admin")]
+        public IActionResult Edit (int? id)
+        {
+            if (!id.HasValue)
+                return View(new Employee());
+
+            var model = employeeService.GetByID(id.Value);
+            if (model == null)
+                return NotFound(); //404
+
+            return View(model);
+        }
+
+        [Route("list2")]
+        public IActionResult List2 ()
+        {
+            return View();
+        }
+
+        [Route("delete/{id}")]
+        [Authorize(Roles = "Boss, Admin")]
+        public IActionResult Delete (int id)
+        {
+            employeeService.Delete(id);
+            return RedirectToAction(nameof(Employees));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Boss, Admin")]
+        [Route("edit/{id?}")]
+        public IActionResult Edit(Employee model)
+        {
+            if (model.Age < 18 || model.Age > 100)
+            {
+                ModelState.AddModelError("Age", "Ошибка возраста!");
+            }
 
             if (!ModelState.IsValid)
-                return View(Model);
+            {
+                return View(model);
+            }
 
-            if (Model.Id == 0)
-                _EmployeesData.Add(Model.FromView());
-            else
-                _EmployeesData.Edit(Model.FromView());
+            if (model.Id > 0)
+            {
+                var dbItem = employeeService.GetByID(model.Id);
 
-            _EmployeesData.SaveChanges();
+                //if (ReferenceEquals(dbItem, null)) return NotFound();// 404
 
-            return RedirectToAction(nameof(Index));
+                dbItem.Id = model.Id;
+                dbItem.Name = model.Name;
+                dbItem.Surname = model.Surname;
+                dbItem.Age = model.Age;
+                dbItem.Patronymic = model.Patronymic;
+                dbItem.EmployementDate = model.EmployementDate;
+            }
+            else 
+            {
+                employeeService.AddNew(model);
+            }
+
+            employeeService.Commit();
+
+            return RedirectToAction(nameof(Employees));
         }
-
-        #endregion
-
-        #region Delete
-
-        //[Authorize(Roles = Role.Administrator)]
-        public IActionResult Delete(int id)
-        {
-            if (id <= 0)
-                return BadRequest();
-
-            var employee = _EmployeesData.GetById(id);
-            if (employee is null)
-                return NotFound();
-
-            return View(employee.ToView());
-        }
-
-        [HttpPost]
-        [Authorize(Roles = Role.Administrator)]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            _EmployeesData.Delete(id);
-            _EmployeesData.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        #endregion
     }
 }
