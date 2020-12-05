@@ -14,18 +14,33 @@ using Microsoft.Data.Sql;
 using System.Data.Entity;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Domain.Entities.Identity;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace WebStoreBakulin.Services.Data
 {
     public class DbInitializer
     {
+        private readonly ILogger<DbInitializer> logger;
+        private readonly WebStoreContext context;
+        public DbInitializer(WebStoreContext webStoreContext, ILogger<DbInitializer> _Logger )
+        {
+            context = webStoreContext;
+            logger = _Logger;
+        }
+        
         public static void Initialize(WebStoreContext context)
         {
+            ILogger<DbInitializer> _logger = null;
+            var timer = Stopwatch.StartNew();
+            _logger.LogInformation ("Initialize");
             context.Database.EnsureCreated();
             if (context.Products.Any())
             {
+                _logger.LogInformation("БД уже существует");
                 return;
             }
+            _logger.LogWarning("Начало создания БД");
             var categories = new List<Category>()
             {
                 new Category()
@@ -239,6 +254,7 @@ namespace WebStoreBakulin.Services.Data
                     ParentId = null
                 }
             };
+            _logger.LogInformation("Категории присвоены");
             var brands = new List<Brand>()
             {
                 new Brand()
@@ -284,6 +300,7 @@ namespace WebStoreBakulin.Services.Data
                     Order = 6
                 },
             };
+            _logger.LogInformation("Брэнды присвоены");
             var Products = new List<Product>()
             {
                 new Product()
@@ -407,45 +424,67 @@ namespace WebStoreBakulin.Services.Data
                     BrandId = 3
                 },
             };
-            
-            
-            using (var trans = context.Database.BeginTransaction())
+            _logger.LogInformation("Продукты присвоены");
+
+            try
             {
-                foreach (var section in categories)
+                using (var trans = context.Database.BeginTransaction())
                 {
-                    context.Categorys.Add(section);
+                    foreach (var section in categories)
+                    {
+                        context.Categorys.Add(section);
+                    }
+                    context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Categories] ON");
+                    context.SaveChanges();
+                    context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Categories] OFF");
+                    context.Database.CommitTransaction();
                 }
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Categories] ON");
-                context.SaveChanges();
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Categories] OFF");
-                context.Database.CommitTransaction();
+                _logger.LogInformation("Категории добавлены в БД");
+            }
+            catch
+            {
+                _logger.LogWarning("Категории НЕ добавлены в БД");
             }
 
-            
-            using (var trans = context.Database.BeginTransaction())
+            try
             {
-                foreach (var brand in brands)
+                using (var trans = context.Database.BeginTransaction())
                 {
-                    context.Brands.Add(brand);
-                }
+                    foreach (var brand in brands)
+                    {
+                        context.Brands.Add(brand);
+                    }
 
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brand] ON");
-                context.SaveChanges();
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brand] OFF");
-                context.Database.CommitTransaction();
+                    context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brand] ON");
+                    context.SaveChanges();
+                    context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brand] OFF");
+                    context.Database.CommitTransaction();
+                }
+                _logger.LogInformation("Брэнды добавлены в БД за {0} ms", timer.ElapsedMilliseconds);
+            }
+            catch
+            {
+                _logger.LogWarning("Брэнды НЕ добавлены в БД");
             }
 
-            
-            using (var trans = context.Database.BeginTransaction())
+            try
             {
-                foreach (var product in Products)
+                using (var trans = context.Database.BeginTransaction())
                 {
-                    context.Products.Add(product);
+                    foreach (var product in Products)
+                    {
+                        context.Products.Add(product);
+                    }
+                    context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] ON");
+                    context.SaveChanges();
+                    context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] OFF");
+                    context.Database.CommitTransaction();
                 }
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] ON");
-                context.SaveChanges();
-                context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] OFF");
-                context.Database.CommitTransaction();
+                _logger.LogInformation("Продукты добавлены в БД за {0:0.###}", timer.Elapsed.TotalSeconds);
+            }
+            catch
+            {
+                _logger.LogWarning("Продукты НЕ добавлены в БД");
             }
         }
 

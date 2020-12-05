@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreBakulin.Services.Data;
@@ -84,6 +85,7 @@ namespace WebStoreBakulin.ServiceHosting
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbInitializer db)
         {
             
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -99,6 +101,7 @@ namespace WebStoreBakulin.ServiceHosting
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
