@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\WebStoreBakulin.Logger\WebStoreBakulin.Logger.csproj" />
     <ProjectReference Include="..\..\Common\WebStoreCoreApplication.Domain\WebStoreCoreApplication.Domain.csproj" />
     <ProjectReference Include="..\WebStoreBakulin.Interfaces\WebStoreBakulin.Interfaces.csproj" />
     <ProjectReference Include="..\WebStoreBakulin.Services\WebStoreBakulin.Services.csproj" />
