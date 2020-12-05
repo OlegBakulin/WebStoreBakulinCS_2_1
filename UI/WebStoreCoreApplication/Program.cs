@@ -50,8 +50,8 @@ namespace WebStoreCoreApplication
                            .Enrich.FromLogContext()
                            .WriteTo.Console(
                                 outputTemplate: "[{Timestamp:HH:mm:ss.fff} {Level:u3}]{SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}")
-                           .WriteTo.RollingFile($@".\Log\WebStore[{DateTime.Now:yyyy-MM-ddTHH-mm-ss}].log")
-                           .WriteTo.File(new JsonFormatter(",", true), $@".\Log\WebStore[{DateTime.Now:yyyy-MM-ddTHH-mm-ss}].log.json")
+                           .WriteTo.RollingFile($@".\Log\WebStoreCoreApplication_[{DateTime.Now:yyyy-MM-ddTHH-mm-ss}].log")
+                           .WriteTo.File(new JsonFormatter(",", true), $@".\Log\WebStoreCoreApplication_[{DateTime.Now:yyyy-MM-ddTHH-mm-ss}].log.json")
                            .WriteTo.Seq("http://localhost:5341/"));
                 });
     }

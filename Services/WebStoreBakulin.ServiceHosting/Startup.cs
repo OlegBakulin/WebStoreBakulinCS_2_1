@@ -15,6 +15,7 @@ using WebStoreBakulin.Services.Products;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Controllers.Infrastructure.Services;
 using WebStoreCoreApplication.Domain.Entities.Identity;
+using WebStoreBakulin.Logger;
 
 namespace WebStoreBakulin.ServiceHosting
 {
@@ -82,9 +83,9 @@ namespace WebStoreBakulin.ServiceHosting
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbInitializer db)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbInitializer db, ILoggerFactory log)
         {
-            
+            log.AddLog4Net();
 
             if (env.IsDevelopment())
             {
