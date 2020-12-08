@@ -25,7 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStoreBakulin.Clients", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.ConsoleUI", "WebStore.ConsoleUI\WebStore.ConsoleUI.csproj", "{4A0B1376-FC4C-43D8-A7ED-E0B24D89C619}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStoreBakulin.Logger", "Common\WebStoreBakulin.Logger\WebStoreBakulin.Logger.csproj", "{C0897EF3-A605-4464-AFB1-D6811948D0E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStoreBakulin.Logger", "Common\WebStoreBakulin.Logger\WebStoreBakulin.Logger.csproj", "{C0897EF3-A605-4464-AFB1-D6811948D0E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{721F208A-1B2B-4CB8-B8FF-FBB763B47F6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStoreCoreApplication.Tests", "Test\WebStoreCoreApplication.Tests\WebStoreCoreApplication.Tests.csproj", "{E5B57FD7-9F8F-4396-B620-8F4C4E206512}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,10 @@ Global
 		{C0897EF3-A605-4464-AFB1-D6811948D0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0897EF3-A605-4464-AFB1-D6811948D0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0897EF3-A605-4464-AFB1-D6811948D0E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5B57FD7-9F8F-4396-B620-8F4C4E206512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5B57FD7-9F8F-4396-B620-8F4C4E206512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5B57FD7-9F8F-4396-B620-8F4C4E206512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5B57FD7-9F8F-4396-B620-8F4C4E206512}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +91,7 @@ Global
 		{6A65A51D-E056-4778-85C0-ADBEDC262186} = {EE04A583-FF80-4C50-8A8C-F7EBC3C31EB4}
 		{4A0B1376-FC4C-43D8-A7ED-E0B24D89C619} = {2A941436-6B55-4594-844A-18CA35E88593}
 		{C0897EF3-A605-4464-AFB1-D6811948D0E2} = {DC7DE24F-F83A-4B00-85B7-83DB489D13D7}
+		{E5B57FD7-9F8F-4396-B620-8F4C4E206512} = {721F208A-1B2B-4CB8-B8FF-FBB763B47F6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {147CBA86-A6C6-47A3-B240-356087ACEDF1}

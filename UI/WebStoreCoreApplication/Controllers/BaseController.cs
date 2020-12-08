@@ -49,7 +49,15 @@ namespace WebStoreCoreApplication.Controllers
             return View();
         }
 
-        
+        public IActionResult Throw(string id) =>
+            throw new ApplicationException($"Исключение: {id ?? "<null>"}");
+
+        public IActionResult ErrorStatus(string Code) => Code switch
+        {
+            "404" => RedirectToAction(nameof(Page404)),
+            _ => Content($"Error {Code}")
+        };
+
 
     }
 }
