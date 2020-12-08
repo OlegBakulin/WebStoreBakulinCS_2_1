@@ -179,6 +179,7 @@ namespace WebStore.Services.Tests.Products
 
             Assert.Equal(expected_items_count, result.ItemsCount);
             Assert.Equal(expected_first_product_price, result.Items.First().Product.Price);
+        
         }
     }
 }
