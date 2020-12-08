@@ -40,6 +40,9 @@ namespace WebStoreCoreApplication
 
             services.AddSingleton<IEmployeeService, InMemoryEmployeeServices>();
             services.AddScoped<IProductServices, SqlProductService>();
+            services.AddScoped<ICartStore, CookiesCartStore>();
+            services.AddScoped<ICartService, CartService>();
+            
             services.AddScoped<IOrdersService, SqlOrdersService>();
 
             services.AddSingleton<IValueService, ValueClient>();
