@@ -1,8 +1,9 @@
 ﻿<div class="col-sm-3">
     <div class="left-sidebar">
-        @await Html.PartialAsync("Partial/LeftBarSlice/Category")<!--/category-products-->
+    
+        <vc:category category-id="@Context.Request.Query["CategoryID"]"/> @*@await Html.PartialAsync("Partial/LeftBarSlice/Category")<!--/category-products-->*@
 
-        @await Component.InvokeAsync("Brand")<!--/brands_products-->
+        <vc:brand brand-id="@Context.Request.Query["BrandID"]"/> @*@await Component.InvokeAsync("Brand")<!--/brands_products-->*@
 
         @await Html.PartialAsync("Partial/LeftBarSlice/Price")<!--/price-range-->
 

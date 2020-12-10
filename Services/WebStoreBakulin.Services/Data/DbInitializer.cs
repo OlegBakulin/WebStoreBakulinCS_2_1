@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Data.Sql;
-using System.Data.Entity;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Domain.Entities.Identity;
 using Microsoft.Extensions.Logging;

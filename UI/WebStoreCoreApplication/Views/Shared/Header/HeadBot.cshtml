@@ -17,7 +17,7 @@
                             <a is-active-rout asp-controller="Base" asp-action="Index" class="active">Home</a>
                         </li>
                         <li class="dropdown">
-                            <a asp-controller="Catalog" asp-action="Shop">Shop<i class="fa fa-angle-down"></i></a>
+                            <a is-active-rout ignor-action asp-controller="Catalog" asp-action="Shop">Shop<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a is-active-rout asp-controller="Catalog" asp-action="Shop">Products</a></li>
                                 @*<li><a asp-controller="Catalog" asp-action="ProductDetails">Product Details</a></li>*@

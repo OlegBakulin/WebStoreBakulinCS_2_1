@@ -1,8 +1,8 @@
-﻿@model IEnumerable<WebStoreCoreApplication.Domain.ViewModels.CategoryViewModel>
+﻿@model WebStoreCoreApplication.Domain.ViewModels.SelectCategotyViewModel
     
     <div class="panel-group category-products" id="accordian">
         <h2>Category</h2>
-        @foreach (var parentCategory in Model)
+        @foreach (var parentCategory in Model.Category)
         {
             if (parentCategory.ChildCategory.Count > 0)
             {
@@ -15,12 +15,12 @@
                             </a>
                         </h4>
                     </div>
-                    <div id="@parentCategory.Name.ToLower()" class="panel-collapse collapse">
+                    <div id="@parentCategory.Name.ToLower()" class="panel-collapse collapse @(parentCategory.Id == Model.ParentCategoryId?"in":null)">
                         <div class="panel-body">
                             <ul>
                                 @foreach (var childCategory in parentCategory.ChildCategory)
                                 {
-                                    <li>
+                                    <li @(childCategory.Id == Model.CurrentCategoryId ? "class=active":null)>
                                 <a asp-controller="Catalog" asp-action="Shop" asp-route-CategoryId="@childCategory.Id">
                                      @childCategory.Name
                                 </a></li>
