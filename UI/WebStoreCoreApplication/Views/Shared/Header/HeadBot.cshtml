@@ -14,29 +14,30 @@
                 <div class="mainmenu pull-left">
                     <ul class="nav navbar-nav collapse navbar-collapse">
                         <li>
-                            <a asp-controller="Base" asp-action="Index" class="active">Home</a>
+                            <a is-active-rout asp-controller="Base" asp-action="Index" class="active">Home</a>
                         </li>
                         <li class="dropdown">
                             <a asp-controller="Catalog" asp-action="Shop">Shop<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
-                                <li><a asp-controller="Catalog" asp-action="Shop">Products</a></li>
+                                <li><a is-active-rout asp-controller="Catalog" asp-action="Shop">Products</a></li>
                                 @*<li><a asp-controller="Catalog" asp-action="ProductDetails">Product Details</a></li>*@
-                                <li><a asp-controller="Base" asp-action="Checkout">Checkout</a></li>
-                                <li><a asp-controller="Cart" asp-action="Details">Cart</a></li>
+                                <li><a is-active-rout asp-controller="Base" asp-action="Checkout">Checkout</a></li>
+                                <li><a is-active-rout asp-controller="Cart" asp-action="Details">Cart</a></li>
                                 @*<li><a asp-controller="Account" asp-action="Login">Login</a></li>*@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a asp-controller="Base" asp-action="Blog">Blog<i class="fa fa-angle-down"></i></a>
+                            <a is-active-rout asp-controller="Base" asp-action="Blog">Blog<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
-                                <li><a asp-controller="Base" asp-action="Blog">Blog List</a></li>
-                                <li><a asp-controller="Base" asp-action="Blog_Single">Blog Single</a></li>
+                                <li><a is-active-rout asp-controller="Base" asp-action="Blog">Blog List</a></li>
+                                <li><a is-active-rout asp-controller="Base" asp-action="Blog_Single">Blog Single</a></li>
                             </ul>
                         </li>
-                        <li><a asp-controller="Base" asp-action="Page404">404</a></li>
-                        <li><a asp-controller="Base" asp-action="ContactUs">Contact</a></li>
-                        <li><a asp-controller="Employee" asp-action="Employees">Employee</a></li>
-                        <li><a asp-controller="WebAPI" asp-action="Index">WebAPI</a></li>
+                        <li><a is-active-rout asp-controller="Base" asp-action="Page404">404</a></li>
+                        <li><a asp-controller="Base" asp-action="ContactUs" class="@IsActive("Base", "ContactUs")">Contact</a></li>
+                        <li><a is-active-rout asp-controller="Employee" asp-action="Employees">Employee</a></li>
+                        <li><a is-active-rout asp-controller="WebAPI" asp-action="Index">WebAPI</a></li>
+                        <is-active-rout></is-active-rout>
                     </ul>
                 </div>
             </div>
@@ -48,3 +49,13 @@
         </div>
     </div>
 </div>
+
+@functions
+{
+    string IsActive(string Controller, string Action) =>
+        Equals(Controller, ViewContext.RouteData.Values["Controller"])
+        &&
+        Equals(Action, ViewContext.RouteData.Values["Action"])
+        ? "active"
+        : null;
+}

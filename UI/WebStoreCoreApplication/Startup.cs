@@ -45,7 +45,7 @@ namespace WebStoreCoreApplication
             
             services.AddScoped<IOrdersService, SqlOrdersService>();
 
-            services.AddSingleton<IValueService, ValueClient>();
+            services.AddTransient<IValueService, ValueClient>();
 
             
 
