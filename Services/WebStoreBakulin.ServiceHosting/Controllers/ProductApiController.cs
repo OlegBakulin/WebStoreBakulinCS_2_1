@@ -11,7 +11,7 @@ using WebStoreBakulin.Interfaces.Services;
 
 namespace WebStoreBakulin.ServiceHosting.Controllers
 {
-    [Route(WebApiAdress.ProductsAdress)]
+    [Route(WebApiAdress.Products)]
     [ApiController]
     public class ProductsApiController : ControllerBase, IProductServices 
     {

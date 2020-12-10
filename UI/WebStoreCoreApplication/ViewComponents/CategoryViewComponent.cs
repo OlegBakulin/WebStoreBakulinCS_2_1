@@ -33,6 +33,7 @@ namespace WebStoreCoreApplication.ViewComponents
                     Id = parcat.Id,
                     Name = parcat.Name,
                     Order = parcat.Order,
+                    
                     ParentCategory = null
                 });
             }
@@ -42,7 +43,7 @@ namespace WebStoreCoreApplication.ViewComponents
                 var childcategory = categories.Where(c => c.ParentId == CatViewModel.Id);
                 foreach (var childcat in childcategory)
                 {
-                    CatViewModel.ChildCategories.Add(new CategoryViewModel()
+                    CatViewModel.ChildCategory.Add(new CategoryViewModel()
                     {
                         Id = childcat.Id,
                         Name = childcat.Name,
@@ -50,7 +51,7 @@ namespace WebStoreCoreApplication.ViewComponents
                         ParentCategory = CatViewModel
                     });
                 }
-                CatViewModel.ChildCategories = CatViewModel.ChildCategories.OrderBy(c => c.Order).ToList();
+                CatViewModel.ChildCategory = CatViewModel.ChildCategory.OrderBy(c => c.Order).ToList();
             }
             parentcategory = parentcategory.OrderBy(c => c.Order).ToList();
             return parentcategory;
