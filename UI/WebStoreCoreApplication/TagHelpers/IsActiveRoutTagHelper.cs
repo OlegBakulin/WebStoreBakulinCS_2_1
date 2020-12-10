@@ -12,8 +12,8 @@ namespace WebStoreCoreApplication.TagHelpers
     public class IsActiveRoutTagHelper : TagHelper
     {
         private const string AttributeName = "is-active-rout";
-        
-        
+        private const string IgnorAction = "ignor-action";
+
         [HtmlAttributeName("asp-action")]
         public string Action { get; set; }
 
@@ -23,7 +23,7 @@ namespace WebStoreCoreApplication.TagHelpers
 
 
         [HtmlAttributeName("asp-all-route-data", DictionaryAttributePrefix = "asp-route-")]
-        public Dictionary<string, string> RoutValue { get; set; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<string, string> RoutValue { get; set; } = new (StringComparer.OrdinalIgnoreCase);
 
 
         [ViewContext, HtmlAttributeNotBound]
@@ -32,8 +32,12 @@ namespace WebStoreCoreApplication.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (IsActive()) MakeActive(output);
+            var ignor_action = output.Attributes.ContainsName(IgnorAction);
+
+            if (IsActive(ignor_action)) MakeActive(output);
+            
             output.Attributes.RemoveAll(AttributeName);
+            output.Attributes.RemoveAll(IgnorAction);
         }
 
         private void MakeActive(TagHelperOutput output)
@@ -51,19 +55,19 @@ namespace WebStoreCoreApplication.TagHelpers
 
         }
 
-        private bool IsActive()
+        private bool IsActive(bool IgnoreAction)
         {
             var route_value = ViewContext.RouteData.Values;
 
             var current_controller = route_value["Controller"].ToString();
-            var current_action = route_value["Action"].ToString();
+            var current_action = route_value["Action"]?.ToString();
 
             const StringComparison str_com = StringComparison.OrdinalIgnoreCase;
             
             if (!string.IsNullOrEmpty(Controller) && !string.Equals(current_controller, Controller, str_com))
                 return false;
 
-            if (!string.IsNullOrEmpty(Action) && !string.Equals(current_action, Action, str_com))
+            if (!IgnoreAction && !string.IsNullOrEmpty(Action) && !string.Equals(current_action, Action, str_com))
                 return false;
             foreach (var (key, value) in RoutValue)
                 if (!route_value.ContainsKey(key) || route_value[key]?.ToString() != value)

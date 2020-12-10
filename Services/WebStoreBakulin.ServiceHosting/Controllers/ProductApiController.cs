@@ -19,11 +19,30 @@ namespace WebStoreBakulin.ServiceHosting.Controllers
 
         public ProductsApiController(IProductServices ProductData) => _ProductData = ProductData;
 
+
+
         [HttpGet("category")] // http://localhost:5001/api/products/category
         public IEnumerable<CategoryDTO> GetCategories() => _ProductData.GetCategories();
+        
+
+        
+        [HttpGet("category/{id}")]
+        public CategoryDTO GetCategoryById(int id) => _ProductData.GetCategoryById(id);
+       
+        
+
 
         [HttpGet("brands")] // http://localhost:5001/api/products/brands
         public IEnumerable<BrandDTO> GetBrands() => _ProductData.GetBrands();
+        
+
+
+        
+        [HttpGet("brands/{id}")]
+        public BrandDTO GetBrandById(int id) => _ProductData.GetBrandById(id);
+        
+        
+
 
         [HttpPost]
         public IEnumerable<ProductDTO> GetProducts([FromBody] ProductFilter Filter = null) =>

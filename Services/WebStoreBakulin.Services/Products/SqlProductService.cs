@@ -16,20 +16,16 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
     {
         private readonly WebStoreContext _context;
 
-        public SqlProductService(WebStoreContext context)
-        {
-            _context = context;
-        }
+        public SqlProductService(WebStoreContext context) => _context = context;
 
-        public IEnumerable<CategoryDTO> GetCategories()
-        {
-            return _context.Categorys.AsEnumerable().Select(c => c.ToDTO());
-        }
+        public IEnumerable<CategoryDTO> GetCategories() => _context.Categorys.AsEnumerable().Select(c => c.ToDTO());
 
-        public IEnumerable<BrandDTO> GetBrands()
-        {
-            return _context.Brands.AsEnumerable().Select(b => b.ToDTO());
-        }
+        public CategoryDTO GetCategoryById(int id) => _context.Categorys.Find(id).ToDTO();
+
+        public IEnumerable<BrandDTO> GetBrands() => _context.Brands.Include(b => b.Products).AsEnumerable().Select(b => b.ToDTO());
+
+        public BrandDTO GetBrandById(int id) => _context.Brands.Include(b => b.Products).FirstOrDefault(b => b.Id == id).ToDTO();
+
 
         public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
         {
@@ -51,9 +47,13 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
             }
         }
 
-            ProductDTO IProductServices.GetProductById(int id)
+        ProductDTO IProductServices.GetProductById(int id)
         {
-            return _context.Products.Include(p => p.Category).Include(p => p.Brand).FirstOrDefault(x => x.Id == id).ToDTO();
+            return _context.Products                
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .FirstOrDefault(x => x.Id == id)
+                .ToDTO();
         }
 
         
