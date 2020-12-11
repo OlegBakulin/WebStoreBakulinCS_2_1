@@ -21,7 +21,7 @@ namespace WebStoreCoreApplication.Controllers
             var values = _ValueService.Get();
             return View(values);
         }
-       
+       /*
         [Route("{id}")]
         [HttpGet]
         public IActionResult ValueByID(int id)
@@ -29,7 +29,7 @@ namespace WebStoreCoreApplication.Controllers
             var values = _ValueService.Get(id);
             return View(values);
         }
-
+       */
         [Route("delete/{id}")]
         public IActionResult Delete(int id)
         {
