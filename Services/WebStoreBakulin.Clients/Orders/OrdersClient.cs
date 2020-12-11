@@ -12,7 +12,7 @@ namespace WebStoreBakulin.Clients.Orders
 {
     public class OrdersClient : BaseClient, IOrdersService
     {
-        public OrdersClient(IConfiguration Configuration) : base(Configuration, WebApiAdress.OrdersAdress) { }
+        public OrdersClient(IConfiguration Configuration) : base(Configuration, WebApiAdress.Orders) { }
 
         public async Task<IEnumerable<OrderDTO>> GetUserOrders(string UserName) =>
             await GetAsync<IEnumerable<OrderDTO>>($"{_ServiceAddress}/user/{UserName}");

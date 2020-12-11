@@ -7,7 +7,7 @@ using  WebStoreBakulin.Interfaces.Services;
 
 namespace WebStoreCoreApplication.Controllers
 {
-    [Route(WebApiAdress.OrdersAdress)]
+    [Route(WebApiAdress.Orders)]
     [ApiController]
     public class OrdersApiController : ControllerBase, IOrdersService
     {

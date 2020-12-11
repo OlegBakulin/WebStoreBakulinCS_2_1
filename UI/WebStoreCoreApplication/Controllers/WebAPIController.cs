@@ -14,19 +14,22 @@ namespace WebStoreCoreApplication.Controllers
         private readonly IValueService _ValueService;
 
         public WebAPIController(IValueService ValueService) => _ValueService = ValueService;
+       
         [Route("Index")]
         public IActionResult Index()
         {
             var values = _ValueService.Get();
             return View(values);
         }
+       /*
         [Route("{id}")]
+        [HttpGet]
         public IActionResult ValueByID(int id)
         {
             var values = _ValueService.Get(id);
             return View(values);
         }
-
+       */
         [Route("delete/{id}")]
         public IActionResult Delete(int id)
         {

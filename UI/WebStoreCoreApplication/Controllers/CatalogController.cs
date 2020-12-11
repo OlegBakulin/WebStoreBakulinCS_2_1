@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreCoreApplication.Domain.ViewModels;
+using WebStoreBakulin.Services.Mapping;
 
 namespace WebStoreCoreApplication.Controllers
 {
@@ -38,20 +39,28 @@ namespace WebStoreCoreApplication.Controllers
                 Name = product.Name,
                 Order = product.Order,
                 Price = product.Price,
-                BrandName = product.Brand?.Name ?? string.Empty
+                Brand = product.Brand?.Name ?? string.Empty
             });
 
         }
 
-        public IActionResult Shop(int? categoryId, int? brandId)
+        public IActionResult Shop(int? brandId, int? categoryId)
         {
-            var products = _productServices.GetProducts(new ProductFilter { BrandId = brandId, CategoryId = categoryId });
+            //var products = _productServices.GetProducts(new ProductFilter { BrandId = brandId, CategoryId = categoryId });
+            var filter = new ProductFilter
+            {
+                BrandId = brandId,
+                CategoryId = categoryId
+            };
+
+            var products = _productServices.GetProducts(filter);
 
             var model = new CatalogViewModel()
             {
                 BrandId = brandId,
                 CategoryId = categoryId,
-                Products = products.Select(pr => new ProductViewModel()
+                Products = products.FromDTO().ToView().OrderBy(p => p.Order)
+                /* Products = products.Select(pr => new ProductViewModel()
                 {
                     Id = pr.Id,
                     ImageUrl = pr.ImageUrl,
@@ -59,6 +68,7 @@ namespace WebStoreCoreApplication.Controllers
                     Order = pr.Order,
                     Price = pr.Price
                 }).OrderBy(p => p.Order).ToList()
+               */
             };
 
             return View(model);

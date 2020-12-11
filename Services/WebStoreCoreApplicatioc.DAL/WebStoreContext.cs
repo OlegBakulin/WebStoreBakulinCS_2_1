@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebStoreCoreApplication.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using WebStoreCoreApplication.Domain.Entities.Identity;
 
 namespace WebStoreCoreApplicatioc.DAL
 {

@@ -1,4 +1,5 @@
-﻿using WebStoreCoreApplication.Domain.DTO.Products;
+﻿using System.Linq;
+using WebStoreCoreApplication.Domain.DTO.Products;
 using WebStoreCoreApplication.Domain.Entities;
 
 namespace WebStoreBakulin.Services.Mapping
@@ -10,6 +11,7 @@ namespace WebStoreBakulin.Services.Mapping
             Id = Brand.Id,
             Name = Brand.Name,
             Order = Brand.Order,
+            ProductsCount = Brand.Products.Count()
         };
 
         public static Brand FromDTO(this BrandDTO Brand) => Brand is null ? null : new Brand
@@ -17,6 +19,7 @@ namespace WebStoreBakulin.Services.Mapping
             Id = Brand.Id,
             Name = Brand.Name,
             Order = Brand.Order,
+            
         };
     }
 }

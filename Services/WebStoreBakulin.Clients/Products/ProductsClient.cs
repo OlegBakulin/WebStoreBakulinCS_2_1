@@ -11,12 +11,22 @@ namespace WebStoreBakulin.Clients.Products
 {
     public class ProductsClient : BaseClient, IProductServices
     {
-        public ProductsClient(IConfiguration Configuration) : base(Configuration, WebApiAdress.ProductsAdress) { }
+        public ProductsClient(IConfiguration Configuration) : base(Configuration, WebApiAdress.Products) { }
 
+
+        
         public IEnumerable<CategoryDTO> GetCategories() => Get<IEnumerable<CategoryDTO>>($"{_ServiceAddress}/sections");
 
+        public CategoryDTO GetCategoryById(int id) => Get<CategoryDTO>($"{_ServiceAddress}/categorys/{id}");
+        
+
+        
         public IEnumerable<BrandDTO> GetBrands() => Get<IEnumerable<BrandDTO>>($"{_ServiceAddress}/brands");
 
+        public BrandDTO GetBrandById(int id) => Get<BrandDTO>($"{_ServiceAddress}/brands/{id}");
+        
+        
+        
         public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null) =>
             Post(_ServiceAddress, Filter ?? new ProductFilter())
                .Content
@@ -24,5 +34,9 @@ namespace WebStoreBakulin.Clients.Products
                .Result;
 
         public ProductDTO GetProductById(int id) => Get<ProductDTO>($"{_ServiceAddress}/{id}");
+
+        
+
+        
     }
 }

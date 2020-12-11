@@ -403,17 +403,15 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
             };
         }
 
-        public IEnumerable<BrandDTO> GetBrands()
+        public IEnumerable<BrandDTO> GetBrands() => _brands.AsEnumerable().Select(s => s.ToDTO());
+
+        public IEnumerable<CategoryDTO> GetCategories() => _categories.AsEnumerable().Select(s => s.ToDTO());
+
+        public CategoryDTO GetCategoryById(int id)
         {
-            return (IEnumerable<BrandDTO>)_brands;
+            var categor = GetCategories();           
+            return categor.FirstOrDefault(s => s.Id == id);
         }
-
-        public IEnumerable<CategoryDTO> GetCategories()
-        {
-            return (IEnumerable<CategoryDTO>)_categories;
-        }
-
-
         public IEnumerable<ProductDTO> GetProducts(ProductFilter filter = null)
         {
             var products = _products;
@@ -458,7 +456,12 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
                 };
             return productdto;
             */
-    }    
-}
+    }
+
+        
+
+        public BrandDTO GetBrandById(int id) => _brands.FirstOrDefault(b => b.Id == id).ToDTO();
+
+    }
 }
 

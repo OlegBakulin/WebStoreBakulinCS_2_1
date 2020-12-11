@@ -26,11 +26,12 @@ namespace WebStoreBakulin.ServiceHosting.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            id--;
-            if (id < 0) 
-                return BadRequest(); //400
+            if (id < 0)
+                return BadRequest();
+
             if (id >= _value.Count)
                 return NotFound();
+
             return _value[id];
         }
 

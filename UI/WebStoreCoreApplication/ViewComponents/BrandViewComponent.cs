@@ -16,23 +16,31 @@ namespace WebStoreCoreApplication.ViewComponents
         {
             _productServices = productServices;
         }
-        
+
+        public IViewComponentResult Invoke(string BrandID) => View(new SelectBrandViewModel
+        {
+            Brands = GetBrands(),
+            CurrentBrandId = int.TryParse(BrandID, out var id) ? id : (int?)null
+        });
+        /*
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var brand = GetBrands();
             return View(brand);
         }
+        */
 
         private IEnumerable<BrandViewModel> GetBrands()
         {
             var dbbrand = _productServices.GetBrands();
-            return dbbrand.Select(b => new BrandViewModel
+            return (dbbrand.Select(b => new BrandViewModel
             {
                 Id = b.Id,
                 Name = b.Name,
                 Order = b.Order,
-                ProdCount = 0
-            }).OrderBy(b => b.Order).ToList();
+                ProductsCount = b.ProductsCount
+            })
+               .OrderBy(brand => brand.Order));
         }
     }
 }

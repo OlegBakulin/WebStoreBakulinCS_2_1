@@ -1,12 +1,11 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using WebStoreCoreApplicatioc.DAL;
 using WebStoreCoreApplication.Controllers.Infrastructure;
 using WebStoreBakulin.Interfaces.Services;
@@ -16,6 +15,10 @@ using WebStoreBakulin.Interfaces.TestApi;
 using WebStoreBakulin.Clients.Value;
 using WebStoreBakulin.Services.Data;
 using WebStoreBakulin.Services.Products;
+using WebStoreCoreApplication.Domain.Entities.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using WebStoreBakulin.Logger;
 
 //using WebStoreCoreApplication.Infrastructure.Services;
 
@@ -37,9 +40,12 @@ namespace WebStoreCoreApplication
 
             services.AddSingleton<IEmployeeService, InMemoryEmployeeServices>();
             services.AddScoped<IProductServices, SqlProductService>();
+            services.AddScoped<ICartStore, CookiesCartStore>();
+            services.AddScoped<ICartService, CartService>();
+            
             services.AddScoped<IOrdersService, SqlOrdersService>();
 
-            services.AddSingleton<IValueService, ValueClient>();
+            services.AddTransient<IValueService, ValueClient>();
 
             
 
@@ -81,8 +87,9 @@ namespace WebStoreCoreApplication
             //services.AddScoped<UserOrderViewModel>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log)
         {
+            log.AddLog4Net();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

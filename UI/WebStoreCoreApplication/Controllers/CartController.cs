@@ -57,7 +57,8 @@ namespace WebStoreCoreApplication.Controllers
         public IActionResult AddToCart(int id)
         {
             _cartService.AddToCart(id);
-            return RedirectToAction(nameof(Details));
+            //return RedirectToAction(nameof(Details));
+            return Redirect($"/ProductDetails/{id}");
         }
 
         [HttpPost, ValidateAntiForgeryToken]

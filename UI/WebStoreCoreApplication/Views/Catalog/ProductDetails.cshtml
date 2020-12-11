@@ -11,10 +11,11 @@
 
             <div class="col-sm-9 padding-right">
                 <div class="product-details">
+                    <vc:bread-crumbs />
                     <!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="~/images/product-details/@Model.ImageUrl" alt="" />
+                            <img src="~/wwwroot/images/product-details/@Model.ImageUrl" alt="" />
                             <h3>ZOOM</h3>
                         </div>
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -62,19 +63,21 @@
                                 @*<input name="value" type="text" value="1" />*@
                                 <a asp-controller="Cart"
                                    asp-action="AddToCart"
-                                   asp-route-id="@Model.Id" 
-                                   asp-route-order="name:value"
-                                   asp-route-returnUrl="@Context.Request.Path"
+                                   asp-route-id="@Model.Id"
                                    class="btn btn-default add-to-cart">
+                                   <!--asp-route-order="name:value"-->                                   
+                                    <!--@*asp-route-returnUrl="@Context.Request.Path"*@-->
+
+
                                     <i class="fa fa-shopping-cart">
 
                                     </i>Add to cart
                                 </a>
-                                   
+
                             </span>
                             <p><b>Availability:</b> In Stock</p>
                             <p><b>Condition:</b> New</p>
-                            <p><b>Brand:</b> @Model.BrandName</p>
+                            <p><b>Brand:</b> @Model.Brand</p>
                             <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt="" /></a>
                         </div><!--/product-information-->
                     </div>
