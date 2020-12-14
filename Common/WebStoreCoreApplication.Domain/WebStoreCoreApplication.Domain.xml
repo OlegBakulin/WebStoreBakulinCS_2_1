@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebStoreCoreApplication.Domain</name>
+    </assembly>
+    <members>
+        <member name="T:WebStoreCoreApplication.Domain.Entities.ProductFilter">
+            <summary>
+            Класс для фильтрации товаров
+            </summary>
+        </member>
+    </members>
+</doc>

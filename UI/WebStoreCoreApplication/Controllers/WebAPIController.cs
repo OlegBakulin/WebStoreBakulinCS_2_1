@@ -21,6 +21,7 @@ namespace WebStoreCoreApplication.Controllers
             return View(values);
         }
         [Route("{id}")]
+        [HttpGet]
         public IActionResult ValueByID(int id)
         {
             var values = _ValueService.Get(id);

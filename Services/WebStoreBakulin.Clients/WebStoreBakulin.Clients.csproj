@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\WebStoreCoreApplication.Domain\WebStoreCoreApplication.Domain.csproj" />
     <ProjectReference Include="..\WebStoreBakulin.Interfaces\WebStoreBakulin.Interfaces.csproj" />
   </ItemGroup>
 

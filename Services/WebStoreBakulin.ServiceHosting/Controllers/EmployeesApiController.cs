@@ -12,42 +12,49 @@ using WebStoreCoreApplication.Domain.Entities;
 
 namespace WebStoreCoreApplication.Controllers
 {
-    [Route(WebApiAdress.EmployeesAdress)]
+    [Route(WebApiAdress.Employees)]
     [ApiController]
     public class EmployeesApiController : ControllerBase, IEmployeeService
     {
         private readonly IEmployeeService _EmployeesData;
 
         public EmployeesApiController(IEmployeeService EmployeesData) => _EmployeesData = EmployeesData;
-        
+
         [HttpGet]
-        public IEnumerable<Employee> GetAll()
-        {
-            return _EmployeesData.GetAll();
-        }
+        public IEnumerable<Employee> Get() => _EmployeesData.Get();
+
 
         [HttpGet("{id}")]
-        public Employee GetByID(int id)
+        public Employee GetById(int id)
         {
-            return _EmployeesData.GetByID(id);
+            return _EmployeesData.GetById(id);
         }
 
         [HttpPost]
-        public int AddNew(Employee newmodel)
+        public int Add([FromBody] Employee employee)
         {
-            HttpResponseMessage message = new HttpResponseMessage();
-            _EmployeesData.AddNew(newmodel);
-            return (int)message.StatusCode;
+            var id = _EmployeesData.Add(employee);
+            SaveChanges();
+            return id;
         }
         [NonAction]
-        public void Commit()
-        {
-            _EmployeesData.Commit();
-        }
+        public void SaveChanges() => _EmployeesData.SaveChanges();
+
         [HttpDelete("{id}")]
-        bool IEmployeeService.Delete(int id)
+        public bool Delete(int id)
         {
-            return _EmployeesData.Delete(id);
+            var result = _EmployeesData.Delete(id);
+            SaveChanges();
+            return result;
         }
+
+        [HttpPut /*("{id}")*/]
+        public void Edit( /*int id, */ Employee employee)
+        {
+            _EmployeesData.Edit(employee);
+            SaveChanges();
+        }
+
+
     }
 }

@@ -16,6 +16,7 @@ using WebStoreBakulin.Interfaces.TestApi;
 using WebStoreBakulin.Clients.Value;
 using WebStoreBakulin.Services.Data;
 using WebStoreBakulin.Services.Products;
+using WebStoreCoreApplication.Domain.Entities.Identity;
 
 //using WebStoreCoreApplication.Infrastructure.Services;
 

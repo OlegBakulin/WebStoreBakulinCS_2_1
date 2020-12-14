@@ -10,6 +10,7 @@ using WebStoreBakulin.Interfaces.Services;
 using WebStoreCoreApplication.Domain.ViewModels;
 using WebStoreCoreApplication.Domain.DTO.Order;
 using WebStoreBakulin.Services.Mapping;
+using WebStoreCoreApplication.Domain.Entities.Identity;
 
 namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
 {

@@ -13,15 +13,15 @@ namespace WebStoreBakulin.Services.Products
 
         public SqlEmployeesData(WebStoreContext db) => _db = db;
 
-        public IEnumerable<Employee> GetAll() => _db.Employees;
+        public IEnumerable<Employee> Get() => _db.Employees;
 
-        public Employee GetByID(int id) => _db.Employees.Find(id);
+        public Employee GetById(int id) => _db.Employees.Find(id);
 
-        public int AddNew(Employee employee)
+        public int Add(Employee employee)
         {
             if(employee is null) throw new ArgumentNullException(nameof(employee));
 
-            _db.Add(employee);
+            
             //_db.Employees.Add(employee);
 
             return employee.Id;
@@ -29,16 +29,22 @@ namespace WebStoreBakulin.Services.Products
 
         public bool Delete(int id)
         {
-            var employee = GetByID(id);
+            var employee = GetById(id);
             if (employee is null)
                 return false;
             _db.Remove(employee);
             //_db.Employees.Remove(employee);
             return true;
         }
+                
+        void IEmployeeService.Edit(Employee employee)
+        {
+            _db.Add(employee);
+        }
 
-        
-        public void Commit()=> _db.SaveChanges();
-        
+        void IEmployeeService.SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

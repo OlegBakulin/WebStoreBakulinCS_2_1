@@ -11,7 +11,7 @@ namespace WebStoreBakulin.Clients.Products
 {
     public class ProductsClient : BaseClient, IProductServices
     {
-        public ProductsClient(IConfiguration Configuration) : base(Configuration, WebApiAdress.ProductsAdress) { }
+        public ProductsClient(IConfiguration Configuration) : base(Configuration, WebApiAdress.Products) { }
 
         public IEnumerable<CategoryDTO> GetCategories() => Get<IEnumerable<CategoryDTO>>($"{_ServiceAddress}/sections");
 

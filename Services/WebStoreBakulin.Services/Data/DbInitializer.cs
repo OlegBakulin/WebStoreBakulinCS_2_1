@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Data.Sql;
 using System.Data.Entity;
 using WebStoreCoreApplicatioc.DAL;
+using WebStoreCoreApplication.Domain.Entities.Identity;
 
 namespace WebStoreBakulin.Services.Data
 {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreCoreApplication.Domain.Entities;
 using WebStoreCoreApplication.Domain.ViewModels;
+using WebStoreCoreApplication.Domain.Entities.Identity;
 
 namespace WebStoreCoreApplication.Controllers
 {

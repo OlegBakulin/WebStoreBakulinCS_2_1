@@ -9,14 +9,16 @@ namespace WebStoreBakulin.Interfaces.Services
 {
     public interface IEmployeeService
     {
-        IEnumerable<Employee> GetAll();
+        IEnumerable<Employee> Get();
 
-        Employee GetByID(int id);
+        Employee GetById(int id);
 
-        int AddNew(Employee newmodel);
+        int Add(Employee employee);
+
+        void Edit(Employee employee);
 
         bool Delete(int id);
-     
-        void Commit();
+
+        void SaveChanges();
     }
 }

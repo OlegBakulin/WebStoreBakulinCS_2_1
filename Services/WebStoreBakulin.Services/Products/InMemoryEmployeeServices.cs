@@ -32,36 +32,45 @@ namespace WebStoreCoreApplication.Controllers.Infrastructure.Services
             }
         }; 
         
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<Employee> Get()
         {
             return _employees;
         }
 
-        public Employee GetByID(int id)
+        public Employee GetById(int id)
         {
             return _employees.FirstOrDefault(e => e.Id.Equals(id));
         }
         
-        public int AddNew(Employee newmodel)
+        public int Add(Employee newmodel)
         {
             if (newmodel is null)
                     throw new ArgumentNullException(nameof(newmodel));
                 
-            if (_employees.Contains(newmodel)) return newmodel.Id;
-
             newmodel.Id = _employees.Max(e => e.Id) + 1;
                 _employees.Add(newmodel);
                 return newmodel.Id;
         }
 
-        public void Commit() { }
+        
 
         public bool Delete(int id)
         {
-            var employee = GetByID(id);
+            var employee = GetById(id);
             if (employee is null) return false;
             _employees.Remove(employee);
             return true;
+        }
+
+        public void Edit(Employee employee)
+        {
+            _employees.Contains(employee);
+            
+        }
+
+        public void SaveChanges()
+        {
+            
         }
     }
 }
