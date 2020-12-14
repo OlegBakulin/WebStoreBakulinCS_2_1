@@ -6,9 +6,16 @@ namespace WebStoreCoreApplication.Domain
 {
     public static class WebApiAdress
     {
-        public const string EmployeesAdress = "api/employees";
-        public const string ProductsAdress = "api/products";
+        public const string Employees = "api/employees";
 
-        public const string OrdersAdress = "api/orders";
+        public const string Products = "api/products";
+
+        public const string Orders = "api/orders";
+
+        public static class Identity
+        {
+            public const string User = "api/users";
+            public const string Roles = "api/roles";
+        }
     }
 }

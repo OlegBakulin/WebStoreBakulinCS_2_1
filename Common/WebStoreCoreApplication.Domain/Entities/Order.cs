@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using WebStoreCoreApplication.Domain.Entities.Base;
+using WebStoreCoreApplication.Domain.Entities.Identity;
 
 namespace WebStoreCoreApplication.Domain.Entities
 {

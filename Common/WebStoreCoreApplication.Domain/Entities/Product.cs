@@ -11,6 +11,8 @@ namespace WebStoreCoreApplication.Domain.Entities
         public int CategoryId { get; set; }
         public int? BrandId { get; set; }
         public string ImageUrl { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal Price { get; set; }
         //public int Size { get; set; }
         [ForeignKey("CategoryId")]

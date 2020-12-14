@@ -36,14 +36,14 @@ namespace WebStoreCoreApplication.Controllers
         [Route("all")]
         public IActionResult Employees()
         {
-            return View(employeeService.GetAll());
+            return View(employeeService.Get());
         }
 
         [Route("{id}")]
         [Authorize(Roles = "Boss, Admin, Manager")]
         public IActionResult EmployeeDetails(int id)
         {
-            var employeeviewmodel = employeeService.GetByID(id);
+            var employeeviewmodel = employeeService.GetById(id);
             if (employeeviewmodel == null) return NotFound();
             return View(employeeviewmodel);
         }
@@ -55,7 +55,7 @@ namespace WebStoreCoreApplication.Controllers
         public IActionResult NewUser()
         {
             int maxid = 0;
-            foreach (var idempl in employeeService.GetAll())
+            foreach (var idempl in employeeService.Get())
             {
                 maxid = idempl.Id;
             }
@@ -82,8 +82,8 @@ namespace WebStoreCoreApplication.Controllers
             dbItem.Age = model.Age;
             dbItem.Patronymic = model.Patronymic;
             dbItem.EmployementDate = model.EmployementDate;
-            employeeService.AddNew(dbItem);
-            employeeService.Commit();
+            employeeService.Add(dbItem);
+            employeeService.SaveChanges();
             return RedirectToAction(nameof(Employees));
 
         }
@@ -96,7 +96,7 @@ namespace WebStoreCoreApplication.Controllers
             if (!id.HasValue)
                 return View(new Employee());
 
-            var model = employeeService.GetByID(id.Value);
+            var model = employeeService.GetById(id.Value);
             if (model == null)
                 return NotFound(); //404
 
@@ -134,7 +134,7 @@ namespace WebStoreCoreApplication.Controllers
 
             if (model.Id > 0)
             {
-                var dbItem = employeeService.GetByID(model.Id);
+                var dbItem = employeeService.GetById(model.Id);
 
                 //if (ReferenceEquals(dbItem, null)) return NotFound();// 404
 
@@ -147,10 +147,10 @@ namespace WebStoreCoreApplication.Controllers
             }
             else 
             {
-                employeeService.AddNew(model);
+                employeeService.Add(model);
             }
 
-            employeeService.Commit();
+            employeeService.SaveChanges();
 
             return RedirectToAction(nameof(Employees));
         }

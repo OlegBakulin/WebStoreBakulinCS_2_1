@@ -9,7 +9,9 @@ namespace WebStoreCoreApplication.Domain.Entities.Base
 {
     public abstract class BaseEntity : IBaseEntity
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
     }
 }

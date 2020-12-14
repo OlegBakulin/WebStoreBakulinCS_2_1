@@ -30,8 +30,7 @@ namespace WebStoreCoreApplication.ViewComponents
             {
                 Id = b.Id,
                 Name = b.Name,
-                Order = b.Order,
-                ProdCount = 0
+                Order = b.Order
             }).OrderBy(b => b.Order).ToList();
         }
     }
